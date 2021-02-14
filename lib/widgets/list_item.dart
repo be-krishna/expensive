@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../models/expense.dart';
+import '../resources/constants.dart';
+
+class ListItem extends StatelessWidget {
+  final String note;
+  final DateTime date;
+  final TimeOfDay time;
+  final ExpenseCategory category;
+  final double amount;
+  final Function onTapCallback;
+
+  ListItem({
+    Key key,
+    this.note,
+    this.date,
+    this.time,
+    this.category,
+    this.amount,
+    this.onTapCallback,
+  }) : super(key: key);
+
+  Icon getIcon(ExpenseCategory category) {
+    switch (category) {
+      case ExpenseCategory.FOOD:
+        return Icon(
+          Icons.fastfood_outlined,
+          color: kSkyCrayola,
+          size: 30,
+        );
+      case ExpenseCategory.EDUCATION:
+        return Icon(
+          Icons.school_outlined,
+          color: kSuperPink,
+          size: 30,
+        );
+      case ExpenseCategory.TRANSPORT:
+        return Icon(
+          Icons.commute_outlined,
+          color: kMazCrayola,
+          size: 30,
+        );
+      case ExpenseCategory.ENTERTAINMENT:
+        return Icon(
+          Icons.theaters_outlined,
+          color: kUlMarine,
+          size: 30,
+        );
+      case ExpenseCategory.SHOPPING:
+        return Icon(
+          Icons.shopping_bag_outlined,
+          color: kCandyPink,
+          size: 30,
+        );
+      default:
+        return Icon(
+          Icons.money_outlined,
+          color: kEmerald,
+          size: 30,
+        );
+    }
+  }
+
+  final formatter = NumberFormat.currency(locale: "en_IN", symbol: "₹");
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        color: Color(0xff090723),
+        child: ListTile(
+          leading: getIcon(category),
+          title: Text(
+            note,
+            style: TextStyle(fontSize: 18),
+          ),
+          subtitle: Text('${DateFormat.yMMMMd().format(date)}'),
+          trailing: Text('${formatter.format(amount)}'),
+          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          onTap: onTapCallback,
+        ),
+      ),
+    );
+  }
+}

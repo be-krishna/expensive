@@ -1,13 +1,14 @@
-import 'package:expensive/widgets/dashboard_chart.dart';
-import 'package:expensive/widgets/transaction_item.dart';
+import 'package:expensive/screens/expense_history.dart';
+import 'package:expensive/screens/recent_expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'widgets/add_expense_button.dart';
+import 'widgets/dashboard_chart.dart';
 import 'widgets/reusable_card.dart';
+import 'widgets/transaction_item.dart';
 
 const activeCardColor = Color(0xff1d1e33);
-const fabColor = Color(0xffeb1555);
-const bottomContainerHeight = 50.0;
 
 class InputPage extends StatefulWidget {
   @override
@@ -26,26 +27,37 @@ class _InputPageState extends State<InputPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: CircleAvatar(
-                radius: 28,
+                radius: 24,
                 backgroundImage: AssetImage('assets/images/profile.png'),
                 foregroundImage: AssetImage('assets/images/profile.png'),
               ),
             ),
             Expanded(
-                child: ReusableCard(
-              color: Colors.transparent,
-              cardChild: DonutAutoLabelChart.withSampleData(),
-            )),
+              flex: 3,
+              child: ReusableCard(
+                color: Colors.transparent,
+                cardChild: DonutAutoLabelChart.withSampleData(),
+              ),
+            ),
             // Expanded(child: ReusableCard(color: activeCardColor)),
-            TransactionItem(),
+            Expanded(
+              child: TransactionItem(),
+            ),
             // TransactionItem(),
             Expanded(
+              flex: 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
                     child: ReusableCard(
                       color: activeCardColor,
+                      onTapFunction: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RecentExpense()));
+                      },
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -65,6 +77,12 @@ class _InputPageState extends State<InputPage> {
                   Expanded(
                     child: ReusableCard(
                       color: activeCardColor,
+                      onTapFunction: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ExpenseHistory()));
+                      },
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -84,26 +102,12 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-              child: Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(top: 10),
-                height: bottomContainerHeight,
-                decoration: BoxDecoration(
-                  color: fabColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: 28,
-                    ),
-                  ],
-                ),
-              ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RecentExpense()));
+              },
+              child: AddExpenseButton(),
             )
           ],
         ),

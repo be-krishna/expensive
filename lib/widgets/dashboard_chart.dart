@@ -14,7 +14,7 @@ class DonutAutoLabelChart extends StatelessWidget {
     return new DonutAutoLabelChart(
       _createSampleData(),
       // Disable animations for image tests.
-      animate: false,
+      animate: true,
     );
   }
 
@@ -39,7 +39,7 @@ class DonutAutoLabelChart extends StatelessWidget {
       //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
       //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
       defaultRenderer: new charts.ArcRendererConfig(
-        arcWidth: 60,
+        arcWidth: 80,
         arcRendererDecorators: [
           new charts.ArcLabelDecorator(),
         ],
@@ -48,33 +48,30 @@ class DonutAutoLabelChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
+  static List<charts.Series<GaugeSegment, String>> _createSampleData() {
     final data = [
-      new LinearSales(0, 100),
-      new LinearSales(1, 75),
-      new LinearSales(2, 25),
-      new LinearSales(3, 50),
+      new GaugeSegment('Year', 200, charts.Color.fromHex(code: '#ed2c66')),
+      new GaugeSegment('Month', 150, charts.Color.fromHex(code: '#ef4477')),
+      new GaugeSegment('Week', 100, charts.Color.fromHex(code: '#f37399')),
     ];
 
     return [
-      new charts.Series<LinearSales, int>(
-        id: 'Sales',
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
+      new charts.Series<GaugeSegment, String>(
+        id: 'Segments',
+        domainFn: (GaugeSegment segment, _) => segment.segment,
+        measureFn: (GaugeSegment segment, _) => segment.size,
+        colorFn: (GaugeSegment segment, _) => segment.color,
         data: data,
-        // colorFn: (_, __) => charts.Color.fromHex(code: '#f2f2f2'),
-        colorFn: (_, __) => charts.MaterialPalette.pink.shadeDefault,
-        // Set a label accessor to control the text of the arc label.
-        labelAccessorFn: (LinearSales row, _) => '${row.year}: ${row.sales}',
       )
     ];
   }
 }
 
-/// Sample linear data type.
-class LinearSales {
-  final int year;
-  final int sales;
+/// Sample data type.
+class GaugeSegment {
+  final String segment;
+  final int size;
+  final charts.Color color;
 
-  LinearSales(this.year, this.sales);
+  GaugeSegment(this.segment, this.size, this.color);
 }

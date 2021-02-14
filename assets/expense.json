@@ -1,0 +1,107 @@
+[
+    {
+        "date": 20201123,
+        "time": "17:30",
+        "amount": 500.0,
+        "category": 0,
+        "note": "Pizza with friends"
+    },
+    {
+        "date": 20201124,
+        "time": "12:45",
+        "amount": 100.0,
+        "category": 3,
+        "note": "Home to College"
+    },
+    {
+        "date": 20201125,
+        "time": "10:55",
+        "amount": 120.0,
+        "category": 3,
+        "note": "Home to College"
+    },
+    {
+        "date": 20201124,
+        "time": "19:00",
+        "amount": 150.0,
+        "category": 1,
+        "note": "Notebooks"
+    },
+    {
+        "date": 20201126,
+        "time": "16:10",
+        "amount": 300.0,
+        "category": 4,
+        "note": "Movies"
+    },
+    {
+        "date": 20201127,
+        "time": "12:40",
+        "amount": 100.0,
+        "category": 5,
+        "note": "Recharge"
+    },
+    {
+        "date": 20201128,
+        "time": "20:55",
+        "amount": 195.0,
+        "category": 2,
+        "note": "New Tie"
+    },
+    {
+        "date": 20201129,
+        "time": "19:15",
+        "amount": 100.0,
+        "category": 1,
+        "note": "Photocopy"
+    },
+    {
+        "date": 20201130,
+        "time": "10:00",
+        "amount": 70.0,
+        "category": 3,
+        "note": "To Gandhi Maidan"
+    },
+    {
+        "date": 20201201,
+        "time": "12:35",
+        "amount": 400.0,
+        "category": 0,
+        "note": "Pizza"
+    },
+    {
+        "date": 20201205,
+        "time": "09:45",
+        "amount": 100.0,
+        "category": 3,
+        "note": "To College"
+    },
+    {
+        "date": 20201220,
+        "time": "19:45",
+        "amount": 500.0,
+        "category": 1,
+        "note": "Books"
+    },
+    {
+        "date": 20201224,
+        "time": "21:45",
+        "amount": 500.0,
+        "category": 4,
+        "note": "Movies"
+    },
+    {
+        "date": 20201126,
+        "time": "19:45",
+        "amount": 100.0,
+        "category": 5,
+        "note": "Can't Remember"
+    },
+    {
+        "date": 20201128,
+        "time": "16:45",
+        "amount": 1000.0,
+        "category": 1,
+        "note": "Dress"
+    }
+]
