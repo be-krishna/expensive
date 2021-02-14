@@ -1,8 +1,9 @@
+import 'package:expensive/widgets/dashboard_chart.dart';
 import 'package:expensive/widgets/transaction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'widgets/reusableCard.dart';
+import 'widgets/reusable_card.dart';
 
 const activeCardColor = Color(0xff1d1e33);
 const fabColor = Color(0xffeb1555);
@@ -30,10 +31,14 @@ class _InputPageState extends State<InputPage> {
                 foregroundImage: AssetImage('assets/images/profile.png'),
               ),
             ),
-            Expanded(child: ReusableCard(color: Colors.white)),
+            Expanded(
+                child: ReusableCard(
+              color: Colors.transparent,
+              cardChild: DonutAutoLabelChart.withSampleData(),
+            )),
             // Expanded(child: ReusableCard(color: activeCardColor)),
             TransactionItem(),
-            TransactionItem(),
+            // TransactionItem(),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
