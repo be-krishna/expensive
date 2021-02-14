@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-const fabColor = Color(0xffeb1555);
 const bottomContainerHeight = 50.0;
-
 class AddExpenseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,7 +11,7 @@ class AddExpenseButton extends StatelessWidget {
         margin: EdgeInsets.only(top: 10),
         height: bottomContainerHeight,
         decoration: BoxDecoration(
-          color: fabColor,
+          color: Colors.pink,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(

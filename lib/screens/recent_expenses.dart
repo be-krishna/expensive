@@ -8,11 +8,11 @@ class RecentExpense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff0a0e21),
+      appBar: AppBar(elevation: 0),
       body: SafeArea(
         child: Column(
           children: [
-            // TODO: Add Sort Functionality
+            //* Add Sort Functionality
             Expanded(
               child: Consumer<ExpenseData>(
                 builder: (context, data, widget) => ListView.builder(
