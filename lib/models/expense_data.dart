@@ -23,6 +23,9 @@ class ExpenseData extends ChangeNotifier {
   double get totalOnOthers => totalExpenseByCategory(ExpenseCategory.OTHERS);
   double get totalOnShop => totalExpenseByCategory(ExpenseCategory.SHOPPING);
   double get totalOnTrans => totalExpenseByCategory(ExpenseCategory.TRANSPORT);
+  double get totalOfWeek => _amountOfWeek();
+  double get totalOfMonth => _amountOfMonth();
+  Expense get latestExpense => sortedExpenses().first;
 
   Future<String> getJson() {
     return rootBundle.loadString('assets/expense.json');
@@ -80,6 +83,30 @@ class ExpenseData extends ChangeNotifier {
     });
 
     return totalAmount;
+  }
+
+  double _amountOfMonth() {
+    List<Expense> _list = expensesOfMonth();
+
+    double sum = 0;
+
+    _list.forEach((element) {
+      sum += element.amount;
+    });
+
+    return sum;
+  }
+
+  double _amountOfWeek() {
+    List<Expense> _list = expensesOfWeek();
+
+    double sum = 0;
+
+    _list.forEach((element) {
+      sum += element.amount;
+    });
+
+    return sum;
   }
 
   List<Expense> expensesOfWeek() {

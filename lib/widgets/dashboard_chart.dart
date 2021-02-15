@@ -1,28 +1,38 @@
 /// Donut chart with labels example. This is a simple pie chart with a hole in
 /// the middle.
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:expensive/models/expense.dart';
+import 'package:expensive/models/expense_data.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DashboardChart extends StatelessWidget {
-  final List<charts.Series> seriesList;
-  final bool animate;
+  // final List<charts.Series> seriesList;
+  // final bool animate;
 
-  DashboardChart(this.seriesList, {this.animate});
+  // DashboardChart(this.seriesList, {this.animate});
 
-  /// Creates a [PieChart] with sample data and no transition.
-  factory DashboardChart.withSampleData() {
-    return new DashboardChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: true,
-    );
-  }
+  // /// Creates a [PieChart] with sample data and no transition.
+  // factory DashboardChart.withSampleData() {
+  //   return new DashboardChart(
+  //     _createSampleData(),
+  //     // Disable animations for image tests.
+  //     animate: true,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
+    ExpenseData _provider = Provider.of<ExpenseData>(context);
+    List<Expense> _list = _provider.expensesOfWeek();
+    var monthsExpense = _provider.totalOfMonth;
+    var weeksExpense = _provider.totalOfWeek;
+    _provider.printExpenses(expense: _list);
+
+    // print(monthsExpense);
     return new charts.PieChart(
-      seriesList,
-      animate: animate,
+      _createSampleData(month: monthsExpense, week: weeksExpense),
+      animate: true,
       // Configure the width of the pie slices to 60px. The remaining space in
       // the chart will be left as a hole in the center.
       //
@@ -48,11 +58,15 @@ class DashboardChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<GaugeSegment, String>> _createSampleData() {
+  static List<charts.Series<GaugeSegment, String>> _createSampleData(
+      {var month, var week, var year}) {
     final data = [
-      new GaugeSegment('Year', 200, charts.Color.fromHex(code: '#ed2c66')),
-      new GaugeSegment('Month', 150, charts.Color.fromHex(code: '#ef4477')),
-      new GaugeSegment('Week', 100, charts.Color.fromHex(code: '#f37399')),
+      new GaugeSegment(
+          'Year', year ?? 200, charts.Color.fromHex(code: '#ed2c66')),
+      new GaugeSegment(
+          'Month', month ?? 150, charts.Color.fromHex(code: '#ef4477')),
+      new GaugeSegment(
+          'Week', week ?? 100, charts.Color.fromHex(code: '#f37399')),
     ];
 
     return [
@@ -70,7 +84,7 @@ class DashboardChart extends StatelessWidget {
 /// Sample data type.
 class GaugeSegment {
   final String segment;
-  final int size;
+  final double size;
   final charts.Color color;
 
   GaugeSegment(this.segment, this.size, this.color);

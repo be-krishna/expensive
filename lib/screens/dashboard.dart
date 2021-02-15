@@ -1,13 +1,13 @@
 import 'package:expensive/screens/add_expense.dart';
 import 'package:expensive/screens/expense_history.dart';
 import 'package:expensive/screens/recent_expenses.dart';
+import 'package:expensive/widgets/latest_epense.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/add_expense_button.dart';
 import '../widgets/dashboard_chart.dart';
 import '../widgets/reusable_card.dart';
-import '../widgets/transaction_item.dart';
 
 const activeCardColor = Color(0xff1d1e33);
 
@@ -37,12 +37,12 @@ class _InputPageState extends State<InputPage> {
               flex: 3,
               child: ReusableCard(
                 color: Colors.transparent,
-                cardChild: DashboardChart.withSampleData(),
+                cardChild: DashboardChart(),
               ),
             ),
             // Expanded(child: ReusableCard(color: activeCardColor)),
             Expanded(
-              child: TransactionItem(),
+              child: LatestExpense(),
             ),
             // TransactionItem(),
             Expanded(
