@@ -2,7 +2,7 @@ import 'package:expensive/models/expense_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'input_page.dart';
+import 'screens/dashboard.dart';
 
 void main() => runApp(MyApp());
 

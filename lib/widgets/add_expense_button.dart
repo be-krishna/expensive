@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
 const bottomContainerHeight = 50.0;
+
 class AddExpenseButton extends StatelessWidget {
+  final Function onTapFunction;
+
+  const AddExpenseButton({Key key, this.onTapFunction}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+    return GestureDetector(
+      onTap: onTapFunction,
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.only(top: 10),

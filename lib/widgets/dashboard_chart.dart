@@ -3,15 +3,15 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-class DonutAutoLabelChart extends StatelessWidget {
+class DashboardChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
 
-  DonutAutoLabelChart(this.seriesList, {this.animate});
+  DashboardChart(this.seriesList, {this.animate});
 
   /// Creates a [PieChart] with sample data and no transition.
-  factory DonutAutoLabelChart.withSampleData() {
-    return new DonutAutoLabelChart(
+  factory DashboardChart.withSampleData() {
+    return new DashboardChart(
       _createSampleData(),
       // Disable animations for image tests.
       animate: true,

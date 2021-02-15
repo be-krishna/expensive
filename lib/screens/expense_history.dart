@@ -1,10 +1,10 @@
-import 'package:expensive/widgets/dashboard_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/expense.dart';
 import '../models/expense_data.dart';
 import '../widgets/list_item.dart';
+import '../widgets/stats_chart.dart';
 
 class ExpenseHistory extends StatelessWidget {
   @override
@@ -17,7 +17,11 @@ class ExpenseHistory extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(child: DonutAutoLabelChart.withSampleData()),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StatsChart.withSampleData(),
+          )),
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(10),

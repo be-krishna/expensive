@@ -1,12 +1,13 @@
+import 'package:expensive/screens/add_expense.dart';
 import 'package:expensive/screens/expense_history.dart';
 import 'package:expensive/screens/recent_expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'widgets/add_expense_button.dart';
-import 'widgets/dashboard_chart.dart';
-import 'widgets/reusable_card.dart';
-import 'widgets/transaction_item.dart';
+import '../widgets/add_expense_button.dart';
+import '../widgets/dashboard_chart.dart';
+import '../widgets/reusable_card.dart';
+import '../widgets/transaction_item.dart';
 
 const activeCardColor = Color(0xff1d1e33);
 
@@ -27,7 +28,7 @@ class _InputPageState extends State<InputPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: CircleAvatar(
-                radius: 24,
+                radius: 20,
                 backgroundImage: AssetImage('assets/images/profile.png'),
                 foregroundImage: AssetImage('assets/images/profile.png'),
               ),
@@ -36,7 +37,7 @@ class _InputPageState extends State<InputPage> {
               flex: 3,
               child: ReusableCard(
                 color: Colors.transparent,
-                cardChild: DonutAutoLabelChart.withSampleData(),
+                cardChild: DashboardChart.withSampleData(),
               ),
             ),
             // Expanded(child: ReusableCard(color: activeCardColor)),
@@ -102,12 +103,14 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RecentExpense()));
-              },
-              child: AddExpenseButton(),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+              child: AddExpenseButton(
+                onTapFunction: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddExpense()));
+                },
+              ),
             )
           ],
         ),
