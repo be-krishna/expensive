@@ -8,14 +8,16 @@ class AddTransactionField extends StatelessWidget {
   final Function onTapFunction;
   final TextEditingController controller;
   final Function onChangeFunction;
-  const AddTransactionField(
-      {Key key,
-      this.labelIcon,
-      this.labelText,
-      this.onTapFunction,
-      this.controller,
-      this.onChangeFunction})
-      : super(key: key);
+  final Function formValidator;
+  const AddTransactionField({
+    Key key,
+    this.labelIcon,
+    this.labelText,
+    this.onTapFunction,
+    this.controller,
+    this.onChangeFunction,
+    this.formValidator,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,6 +46,7 @@ class AddTransactionField extends StatelessWidget {
           onTap: onTapFunction,
           controller: controller,
           onChanged: onChangeFunction,
+          validator: formValidator,
         ),
       ],
     );

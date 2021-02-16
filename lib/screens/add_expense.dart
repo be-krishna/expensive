@@ -82,6 +82,8 @@ class _AddExpenseState extends State<AddExpense> {
       });
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,74 +101,103 @@ class _AddExpenseState extends State<AddExpense> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      AddTransactionField(
-                        labelIcon: Icons.calendar_today,
-                        labelText: 'Date',
-                        controller: _dateController,
-                        onTapFunction: () {
-                          _selectDate(context);
-                        },
-                      ),
-                      SizedBox(height: 40),
-                      AddTransactionField(
-                        labelIcon: Icons.alarm,
-                        labelText: 'Time',
-                        controller: _timeController,
-                        onTapFunction: () async {
-                          _selectTime(context);
-                        },
-                      ),
-                      SizedBox(height: 40),
-                      AddTransactionField(
-                        labelIcon: Icons.attach_money,
-                        labelText: 'Amount',
-                        controller: _amountController,
-                        onChangeFunction: (value) {
-                          amount = double.parse(value);
-                        },
-                      ),
-                      SizedBox(height: 40),
-                      ChooseCategory(
-                        labelIcon: Icons.category,
-                        labelText: 'Category',
-                        onChangeFunction: (value) {
-                          setState(() {
-                            category = value;
-                          });
-                        },
-                      ),
-                      SizedBox(height: 40),
-                      AddTransactionField(
-                        labelIcon: Icons.text_snippet,
-                        labelText: 'Note',
-                        controller: _noteController,
-                        onChangeFunction: (value) {
-                          note = value;
-                        },
-                      ),
-                    ],
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        AddTransactionField(
+                          labelIcon: Icons.calendar_today,
+                          labelText: 'Date',
+                          controller: _dateController,
+                          onTapFunction: () {
+                            _selectDate(context);
+                          },
+                          formValidator: (value) {
+                            if (value.empty) {
+                              return "Please select date.";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 40),
+                        AddTransactionField(
+                          labelIcon: Icons.alarm,
+                          labelText: 'Time',
+                          controller: _timeController,
+                          onTapFunction: () async {
+                            _selectTime(context);
+                          },
+                          formValidator: (value) {
+                            if (value.isEmpty) {
+                              return "Please select time.";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 40),
+                        AddTransactionField(
+                          labelIcon: Icons.attach_money,
+                          labelText: 'Amount',
+                          controller: _amountController,
+                          onChangeFunction: (value) {
+                            amount = double.parse(value);
+                          },
+                          formValidator: (value) {
+                            if (value.isEmpty) {
+                              return "Please enter amount.";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 40),
+                        ChooseCategory(
+                          labelIcon: Icons.category,
+                          labelText: 'Category',
+                          onChangeFunction: (value) {
+                            setState(() {
+                              category = value;
+                            });
+                          },
+                        ),
+                        SizedBox(height: 40),
+                        AddTransactionField(
+                          labelIcon: Icons.text_snippet,
+                          labelText: 'Note',
+                          controller: _noteController,
+                          onChangeFunction: (value) {
+                            note = value;
+                          },
+                          formValidator: (value) {
+                            if (value.isEmpty) {
+                              return "Please enter detail.";
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
             AddExpenseButton(
               onTapFunction: () {
-                Provider.of<ExpenseData>(context, listen: false).addExpense(
-                  amount: amount,
-                  date: selectedDate,
-                  time: selectedTime,
-                  category: category,
-                  note: note,
-                );
+                if (_formKey.currentState.validate()) {
+                  Provider.of<ExpenseData>(context, listen: false).addExpense(
+                    amount: amount,
+                    date: selectedDate,
+                    time: selectedTime,
+                    category: category,
+                    note: note,
+                  );
 
-                _dateController.clear();
-                _timeController.clear();
-                _amountController.clear();
-                _noteController.clear();
+                  _dateController.clear();
+                  _timeController.clear();
+                  _amountController.clear();
+                  _noteController.clear();
 
-                FocusScope.of(context).unfocus();
+                  FocusScope.of(context).unfocus();
+                }
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text('Task added'),
                 ));

@@ -9,13 +9,15 @@ class ChooseCategory extends StatefulWidget {
   final Function onTapFunction;
   final TextEditingController controller;
   final Function onChangeFunction;
+  final Function formValidator;
   ChooseCategory(
       {Key key,
       this.labelIcon,
       this.labelText,
       this.onTapFunction,
       this.controller,
-      this.onChangeFunction})
+      this.onChangeFunction,
+      this.formValidator})
       : super(key: key);
 
   @override
@@ -76,6 +78,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
           onChanged: widget.onChangeFunction,
           decoration: kTextFieldDecoration,
           dropdownColor: Color(0xff0a0e21),
+          validator: widget.formValidator,
         ),
       ],
     );

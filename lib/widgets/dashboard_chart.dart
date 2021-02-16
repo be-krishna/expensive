@@ -24,11 +24,9 @@ class DashboardChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ExpenseData _provider = Provider.of<ExpenseData>(context);
-    List<Expense> _list = _provider.expensesOfWeek();
+    List<Expense> _list = _provider.expensesOfMonth();
     var monthsExpense = _provider.totalOfMonth;
     var weeksExpense = _provider.totalOfWeek;
-    _provider.printExpenses(expense: _list);
-
     // print(monthsExpense);
     return new charts.PieChart(
       _createSampleData(month: monthsExpense, week: weeksExpense),
