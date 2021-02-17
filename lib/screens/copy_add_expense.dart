@@ -1,8 +1,11 @@
-import 'package:expensive/models/expense.dart';
-import 'package:expensive/widgets/add_expense_button.dart';
-import 'package:expensive/widgets/copy_category_select.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../models/expense.dart';
+import '../models/expense_data.dart';
+import '../widgets/add_expense_button.dart';
+import '../widgets/copy_category_select.dart';
 
 class CopyAddExpense extends StatefulWidget {
   @override
@@ -10,10 +13,10 @@ class CopyAddExpense extends StatefulWidget {
 }
 
 class _CopyAddExpenseState extends State<CopyAddExpense> {
+  bool _autoValidate = false;
   ExpenseCategory category;
   double amount;
   String note;
-  String _hour, _minute, _time;
   String dateTime;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
@@ -23,58 +26,33 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
   TextEditingController _amountController = TextEditingController();
   TextEditingController _noteController = TextEditingController();
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2015),
-        lastDate: DateTime.now(),
-        builder: (BuildContext context, Widget child) {
-          return Theme(
-            data: ThemeData.dark().copyWith(
-              colorScheme: ColorScheme.dark().copyWith(
-                primary: Colors.pink,
-                surface: Colors.indigo,
-              ),
-            ),
-            child: child,
-          );
-        });
-    if (picked != null)
+  void _selectDateCopy() async {
+    final DateTime newDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2017, 1),
+      lastDate: DateTime.now(),
+      helpText: 'Select a date',
+    );
+    if (newDate != null) {
       setState(() {
-        selectedDate = picked;
-        _dateController.text = DateFormat.yMd().format(selectedDate);
+        selectedDate = newDate;
+        _dateController.text = DateFormat.yMMMd().format(selectedDate);
       });
+    }
   }
 
-  Future<Null> _selectTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-        context: context,
-        initialTime: selectedTime,
-        builder: (BuildContext context, Widget child) {
-          return Theme(
-            data: ThemeData.dark().copyWith(
-              colorScheme: ColorScheme.dark().copyWith(
-                primary: Colors.pink,
-                surface: Colors.indigo,
-              ),
-            ),
-            child: child,
-          );
-        });
-    if (picked != null)
+  void _selectTimeCopy() async {
+    final TimeOfDay newTime = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (newTime != null) {
       setState(() {
-        selectedTime = picked;
-        _hour = selectedTime.hour.toString();
-        _minute = selectedTime.minute.toString();
-        _time = _hour + ' : ' + _minute;
-        _timeController.text = _time;
-        _timeController.text = DateFormat('h:mm a')
-            .format(DateTime(selectedDate.year, selectedDate.month,
-                selectedDate.day, selectedTime.hour, selectedTime.minute))
-            .toString();
+        selectedTime = newTime;
+        _timeController.text = selectedTime.format(context);
       });
+    }
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -99,6 +77,9 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
             Expanded(
               child: Form(
                 key: _formKey,
+                autovalidateMode: _autoValidate
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
                 child: ListView(
                   // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   itemExtent: 120,
@@ -106,30 +87,44 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
                     TextFormField(
                       controller: _amountController,
                       keyboardType: TextInputType.number,
+                      style: TextStyle(fontSize: 16),
                       decoration: _inputDecoration(
                         icon: Icon(Icons.monetization_on_sharp),
                         labelText: "Amount",
                       ),
-                      style: TextStyle(fontSize: 16),
+                      onChanged: (value) {
+                        setState(() {
+                          amount = double.parse(value);
+                        });
+                      },
                       validator: (value) {
                         if (value.isEmpty) {
                           return "Enter amount";
+                        }
+                        if (double.parse(value).isNaN ||
+                            double.parse(value).isNegative) {
+                          return "Enter correct amount";
                         }
                         return null;
                       },
                     ),
                     TextFormField(
                       controller: _noteController,
+                      style: TextStyle(fontSize: 16),
                       decoration: _inputDecoration(
                         icon: Icon(Icons.note_add),
                         labelText: "Detail",
                       ),
-                      style: TextStyle(fontSize: 16),
                       validator: (value) {
                         if (value.isEmpty) {
                           return "Enter Detail";
                         }
                         return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          note = value;
+                        });
                       },
                     ),
                     CopyChooseCategory(
@@ -152,7 +147,7 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
                         }
                         return null;
                       },
-                      onTap: () => _selectDate(context),
+                      onTap: () => _selectDateCopy(),
                       readOnly: true,
                     ),
                     TextFormField(
@@ -168,7 +163,7 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
                         }
                         return null;
                       },
-                      onTap: () => _selectTime(context),
+                      onTap: () => _selectTimeCopy(),
                       readOnly: true,
                     ),
                   ],
@@ -178,7 +173,28 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
             AddExpenseButton(
               onTapFunction: () {
                 if (_formKey.currentState.validate()) {
-                  print("validated");
+                  Provider.of<ExpenseData>(context, listen: false).addExpense(
+                    amount: amount,
+                    date: selectedDate,
+                    time: selectedTime,
+                    category: category,
+                    note: note,
+                  );
+
+                  _dateController.clear();
+                  _timeController.clear();
+                  _amountController.clear();
+                  _noteController.clear();
+
+                  _autoValidate = false;
+
+                  FocusScope.of(context).unfocus();
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Task added')),
+                  );
+                } else {
+                  _autoValidate = true;
                 }
               },
             ),
