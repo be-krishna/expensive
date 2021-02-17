@@ -1,12 +1,10 @@
-import 'package:expensive/widgets/add_expense_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../models/expense.dart';
 import '../models/expense_data.dart';
-import '../resources/constants.dart';
-import '../widgets/add_transaction_field.dart';
+import '../widgets/add_expense_button.dart';
 import '../widgets/category_select.dart';
 
 class AddExpense extends StatefulWidget {
@@ -15,10 +13,10 @@ class AddExpense extends StatefulWidget {
 }
 
 class _AddExpenseState extends State<AddExpense> {
+  bool _autoValidate = false;
   ExpenseCategory category;
   double amount;
   String note;
-  String _hour, _minute, _time;
   String dateTime;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
@@ -28,155 +26,147 @@ class _AddExpenseState extends State<AddExpense> {
   TextEditingController _amountController = TextEditingController();
   TextEditingController _noteController = TextEditingController();
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2015),
-        lastDate: DateTime.now(),
-        builder: (BuildContext context, Widget child) {
-          return Theme(
-            data: ThemeData.dark().copyWith(
-              colorScheme: ColorScheme.dark().copyWith(
-                primary: kSkyCrayola,
-                surface: kBgBlue,
-              ),
-            ),
-            child: child,
-          );
-        });
-    if (picked != null)
+  void _selectDateCopy() async {
+    final DateTime newDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2017, 1),
+      lastDate: DateTime.now(),
+      helpText: 'Select a date',
+    );
+    if (newDate != null) {
       setState(() {
-        selectedDate = picked;
-        _dateController.text = DateFormat.yMd().format(selectedDate);
+        selectedDate = newDate;
+        _dateController.text = DateFormat.yMMMd().format(selectedDate);
       });
+    }
   }
 
-  Future<Null> _selectTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-        context: context,
-        initialTime: selectedTime,
-        builder: (BuildContext context, Widget child) {
-          return Theme(
-            data: ThemeData.dark().copyWith(
-              colorScheme: ColorScheme.dark().copyWith(
-                primary: kSkyCrayola,
-                surface: kBgBlue,
-              ),
-            ),
-            child: child,
-          );
-        });
-    if (picked != null)
+  void _selectTimeCopy() async {
+    final TimeOfDay newTime = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (newTime != null) {
       setState(() {
-        selectedTime = picked;
-        _hour = selectedTime.hour.toString();
-        _minute = selectedTime.minute.toString();
-        _time = _hour + ' : ' + _minute;
-        _timeController.text = _time;
-        _timeController.text = DateFormat('h:mm a')
-            .format(DateTime(selectedDate.year, selectedDate.month,
-                selectedDate.day, selectedTime.hour, selectedTime.minute))
-            .toString();
+        selectedTime = newTime;
+        _timeController.text = selectedTime.format(context);
       });
+    }
   }
 
   final _formKey = GlobalKey<FormState>();
+
+  InputDecoration _inputDecoration({Icon icon, String labelText}) {
+    return InputDecoration(
+      labelText: labelText ?? "Add Label",
+      icon: icon ?? Icon(Icons.error),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Transaction'),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        AddTransactionField(
-                          labelIcon: Icons.calendar_today,
-                          labelText: 'Date',
-                          controller: _dateController,
-                          onTapFunction: () {
-                            _selectDate(context);
-                          },
-                          formValidator: (value) {
-                            if (value.empty) {
-                              return "Please select date.";
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 40),
-                        AddTransactionField(
-                          labelIcon: Icons.alarm,
-                          labelText: 'Time',
-                          controller: _timeController,
-                          onTapFunction: () async {
-                            _selectTime(context);
-                          },
-                          formValidator: (value) {
-                            if (value.isEmpty) {
-                              return "Please select time.";
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 40),
-                        AddTransactionField(
-                          labelIcon: Icons.attach_money,
-                          labelText: 'Amount',
-                          controller: _amountController,
-                          onChangeFunction: (value) {
-                            amount = double.parse(value);
-                          },
-                          formValidator: (value) {
-                            if (value.isEmpty) {
-                              return "Please enter amount.";
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 40),
-                        ChooseCategory(
-                          labelIcon: Icons.category,
-                          labelText: 'Category',
-                          onChangeFunction: (value) {
-                            setState(() {
-                              category = value;
-                            });
-                          },
-                        ),
-                        SizedBox(height: 40),
-                        AddTransactionField(
-                          labelIcon: Icons.text_snippet,
-                          labelText: 'Note',
-                          controller: _noteController,
-                          onChangeFunction: (value) {
-                            note = value;
-                          },
-                          formValidator: (value) {
-                            if (value.isEmpty) {
-                              return "Please enter detail.";
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _autoValidate
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
+                child: ListView(
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  itemExtent: 120,
+                  children: [
+                    TextFormField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(fontSize: 16),
+                      decoration: _inputDecoration(
+                        icon: Icon(Icons.monetization_on_sharp),
+                        labelText: "Amount",
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          amount = double.parse(value);
+                        });
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Enter amount";
+                        }
+                        if (double.parse(value).isNaN ||
+                            double.parse(value).isNegative) {
+                          return "Enter correct amount";
+                        }
+                        return null;
+                      },
                     ),
-                  ),
+                    TextFormField(
+                      controller: _noteController,
+                      style: TextStyle(fontSize: 16),
+                      decoration: _inputDecoration(
+                        icon: Icon(Icons.note_add),
+                        labelText: "Detail",
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Enter Detail";
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          note = value;
+                        });
+                      },
+                    ),
+                    ChooseCategory(
+                      onChangeFunction: (value) {
+                        setState(() {
+                          category = value;
+                        });
+                      },
+                    ),
+                    TextFormField(
+                      controller: _dateController,
+                      decoration: _inputDecoration(
+                        icon: Icon(Icons.calendar_today),
+                        labelText: "Date",
+                      ),
+                      style: TextStyle(fontSize: 16),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Enter Date";
+                        }
+                        return null;
+                      },
+                      onTap: () => _selectDateCopy(),
+                      readOnly: true,
+                    ),
+                    TextFormField(
+                      controller: _timeController,
+                      decoration: _inputDecoration(
+                        icon: Icon(Icons.alarm),
+                        labelText: "Time",
+                      ),
+                      style: TextStyle(fontSize: 16),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Enter Time";
+                        }
+                        return null;
+                      },
+                      onTap: () => _selectTimeCopy(),
+                      readOnly: true,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -196,11 +186,16 @@ class _AddExpenseState extends State<AddExpense> {
                   _amountController.clear();
                   _noteController.clear();
 
+                  _autoValidate = false;
+
                   FocusScope.of(context).unfocus();
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Task added')),
+                  );
+                } else {
+                  _autoValidate = true;
                 }
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Task added'),
-                ));
               },
             ),
           ],

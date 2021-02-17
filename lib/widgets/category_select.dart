@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../models/expense.dart';
-import '../resources/constants.dart';
 
 class ChooseCategory extends StatefulWidget {
-  final IconData labelIcon;
-  final String labelText;
   final Function onTapFunction;
   final TextEditingController controller;
   final Function onChangeFunction;
   final Function formValidator;
   ChooseCategory(
       {Key key,
-      this.labelIcon,
-      this.labelText,
       this.onTapFunction,
       this.controller,
       this.onChangeFunction,
@@ -30,11 +25,11 @@ class _ChooseCategoryState extends State<ChooseCategory> {
   List<DropdownMenuItem> getDropdownItems() {
     List<DropdownMenuItem<ExpenseCategory>> menuItems = [];
 
-    for (ExpenseCategory cat in items) {
+    for (ExpenseCategory category in items) {
       menuItems.add(
         DropdownMenuItem(
-          child: Text(cat.toString().split('.').last),
-          value: cat,
+          child: Text(category.toString().split('.').last),
+          value: category,
         ),
       );
     }
@@ -53,34 +48,16 @@ class _ChooseCategoryState extends State<ChooseCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Icon(
-              widget.labelIcon,
-              color: Colors.white,
-              size: 20,
-            ),
-            SizedBox(width: 20),
-            Text(
-              widget.labelText,
-              style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300),
-            ),
-          ],
-        ),
-        DropdownButtonFormField(
-          value: selectedCategory,
-          items: getDropdownItems(),
-          onChanged: widget.onChangeFunction,
-          decoration: kTextFieldDecoration,
-          dropdownColor: Color(0xff0a0e21),
-          validator: widget.formValidator,
-        ),
-      ],
+    return DropdownButtonFormField(
+      value: selectedCategory,
+      items: getDropdownItems(),
+      onChanged: widget.onChangeFunction,
+      dropdownColor: Color(0xff0a0e21),
+      validator: widget.formValidator,
+      decoration: InputDecoration(
+        labelText: "Category",
+        icon: Icon(Icons.category),
+      ),
     );
   }
 }
