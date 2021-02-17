@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/expense.dart';
-import '../resources/constants.dart';
 
 class ListItem extends StatelessWidget {
   final String note;
@@ -27,37 +26,37 @@ class ListItem extends StatelessWidget {
       case ExpenseCategory.FOOD:
         return Icon(
           Icons.fastfood_outlined,
-          color: kSkyCrayola,
+          color: Colors.blue,
           size: 30,
         );
       case ExpenseCategory.EDUCATION:
         return Icon(
           Icons.school_outlined,
-          color: kSuperPink,
+          color: Colors.pink,
           size: 30,
         );
       case ExpenseCategory.TRANSPORT:
         return Icon(
           Icons.commute_outlined,
-          color: kMazCrayola,
+          color: Colors.yellow,
           size: 30,
         );
       case ExpenseCategory.ENTERTAINMENT:
         return Icon(
           Icons.theaters_outlined,
-          color: kUlMarine,
+          color: Colors.teal,
           size: 30,
         );
       case ExpenseCategory.SHOPPING:
         return Icon(
           Icons.shopping_bag_outlined,
-          color: kCandyPink,
+          color: Colors.red,
           size: 30,
         );
       default:
         return Icon(
           Icons.money_outlined,
-          color: kEmerald,
+          color: Colors.green,
           size: 30,
         );
     }

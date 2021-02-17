@@ -12,7 +12,7 @@ class ExpenseData extends ChangeNotifier {
   }
   List<Expense> _expenses = [];
 
-  UnmodifiableListView<Expense> get expenses => UnmodifiableListView(_expenses);
+  List<Expense> get expenses => _expenses;
 
   double get total => totalExpense();
 

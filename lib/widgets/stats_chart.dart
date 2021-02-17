@@ -28,42 +28,81 @@ class StatsChart extends StatelessWidget {
 
   /// Create series list with multiple series
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final desktopSalesData = [
-      new OrdinalSales('Week', 5),
-      new OrdinalSales('Month', 25),
-      new OrdinalSales('Year', 100),
+    final foodsAndDrinks = [
+      new OrdinalSales('Week', 5, charts.MaterialPalette.blue.shadeDefault),
+      new OrdinalSales('Month', 25, charts.MaterialPalette.blue.shadeDefault),
+      new OrdinalSales('Year', 100, charts.MaterialPalette.blue.shadeDefault),
     ];
 
-    final tableSalesData = [
-      new OrdinalSales('Week', 25),
-      new OrdinalSales('Month', 50),
-      new OrdinalSales('Year', 10),
+    final transport = [
+      new OrdinalSales('Week', 15, charts.MaterialPalette.yellow.shadeDefault),
+      new OrdinalSales('Month', 20, charts.MaterialPalette.yellow.shadeDefault),
+      new OrdinalSales('Year', 80, charts.MaterialPalette.yellow.shadeDefault),
     ];
 
-    final mobileSalesData = [
-      new OrdinalSales('Week', 10),
-      new OrdinalSales('Month', 15),
-      new OrdinalSales('Year', 50),
+    final education = [
+      new OrdinalSales('Week', 50, charts.MaterialPalette.pink.shadeDefault),
+      new OrdinalSales('Month', 30, charts.MaterialPalette.pink.shadeDefault),
+      new OrdinalSales('Year', 40, charts.MaterialPalette.pink.shadeDefault),
+    ];
+    final shopping = [
+      new OrdinalSales('Week', 50, charts.MaterialPalette.red.shadeDefault),
+      new OrdinalSales('Month', 30, charts.MaterialPalette.red.shadeDefault),
+      new OrdinalSales('Year', 40, charts.MaterialPalette.red.shadeDefault),
+    ];
+    final entertainment = [
+      new OrdinalSales('Week', 50, charts.MaterialPalette.teal.shadeDefault),
+      new OrdinalSales('Month', 30, charts.MaterialPalette.teal.shadeDefault),
+      new OrdinalSales('Year', 40, charts.MaterialPalette.teal.shadeDefault),
+    ];
+    final others = [
+      new OrdinalSales('Week', 50, charts.MaterialPalette.green.shadeDefault),
+      new OrdinalSales('Month', 30, charts.MaterialPalette.green.shadeDefault),
+      new OrdinalSales('Year', 40, charts.MaterialPalette.green.shadeDefault),
     ];
 
     return [
       new charts.Series<OrdinalSales, String>(
-        id: 'Desktop',
+        id: 'Food',
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: desktopSalesData,
+        colorFn: (OrdinalSales sales, _) => sales.color,
+        data: foodsAndDrinks,
       ),
       new charts.Series<OrdinalSales, String>(
-        id: 'Tablet',
+        id: 'Transport',
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: tableSalesData,
+        colorFn: (OrdinalSales sales, _) => sales.color,
+        data: transport,
       ),
       new charts.Series<OrdinalSales, String>(
-        id: 'Mobile',
+        id: 'Education',
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: mobileSalesData,
+        colorFn: (OrdinalSales sales, _) => sales.color,
+        data: education,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Shopping',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        colorFn: (OrdinalSales sales, _) => sales.color,
+        data: shopping,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Entertainment',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        colorFn: (OrdinalSales sales, _) => sales.color,
+        data: entertainment,
+      ),
+      new charts.Series<OrdinalSales, String>(
+        id: 'Others',
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        colorFn: (OrdinalSales sales, _) => sales.color,
+        data: others,
       ),
     ];
   }
@@ -73,6 +112,7 @@ class StatsChart extends StatelessWidget {
 class OrdinalSales {
   final String year;
   final int sales;
+  final charts.Color color;
 
-  OrdinalSales(this.year, this.sales);
+  OrdinalSales(this.year, this.sales, this.color);
 }
