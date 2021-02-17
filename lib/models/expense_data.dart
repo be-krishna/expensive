@@ -55,8 +55,8 @@ class ExpenseData extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Expense> sortedExpenses() {
-    List<Expense> temp = _expenses;
+  List<Expense> sortedExpenses({List<Expense> customList}) {
+    List<Expense> temp = customList ?? _expenses;
     temp.sort((a, b) => a.compareTo(b));
     return temp;
   }

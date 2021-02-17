@@ -1,10 +1,12 @@
+import 'package:expensive/models/expense_data.dart';
 import 'package:expensive/screens/expense_history.dart';
 import 'package:expensive/screens/recent_expenses.dart';
 import 'package:expensive/widgets/latest_epense.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import '../widgets/add_expense_button.dart';
 import '../widgets/dashboard_chart.dart';
 import '../widgets/reusable_card.dart';
 import 'add_expense.dart';
@@ -103,17 +105,51 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: AddExpenseButton(
-                onTapFunction: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddExpense()));
-                },
+            Container(
+              padding: EdgeInsets.only(top: 10, bottom: 20, left: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Total",
+                    style: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                  ),
+                  Consumer<ExpenseData>(
+                    builder: (context, value, child) => RichText(
+                      text: TextSpan(
+                        text: '₹ ',
+                        style: TextStyle(
+                          fontFamily: "OpenSans",
+                          fontSize: 16,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: NumberFormat('#,##,###.00', 'en_US')
+                                .format(value.total),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "OpenSans",
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             )
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
+        label: Text("New"),
+        backgroundColor: Colors.pink,
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => AddExpense()));
+        },
       ),
     );
   }
