@@ -29,24 +29,21 @@ class StatsChart extends StatelessWidget {
   /// Create series list with multiple series
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     final desktopSalesData = [
-      new OrdinalSales('2014', 5),
-      new OrdinalSales('2015', 25),
-      new OrdinalSales('2016', 100),
-      new OrdinalSales('2017', 75),
+      new OrdinalSales('Week', 5),
+      new OrdinalSales('Month', 25),
+      new OrdinalSales('Year', 100),
     ];
 
     final tableSalesData = [
-      new OrdinalSales('2014', 25),
-      new OrdinalSales('2015', 50),
-      new OrdinalSales('2016', 10),
-      new OrdinalSales('2017', 20),
+      new OrdinalSales('Week', 25),
+      new OrdinalSales('Month', 50),
+      new OrdinalSales('Year', 10),
     ];
 
     final mobileSalesData = [
-      new OrdinalSales('2014', 10),
-      new OrdinalSales('2015', 15),
-      new OrdinalSales('2016', 50),
-      new OrdinalSales('2017', 45),
+      new OrdinalSales('Week', 10),
+      new OrdinalSales('Month', 15),
+      new OrdinalSales('Year', 50),
     ];
 
     return [

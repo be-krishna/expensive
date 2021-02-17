@@ -25,6 +25,8 @@ class ExpenseData extends ChangeNotifier {
   double get totalOnTrans => totalExpenseByCategory(ExpenseCategory.TRANSPORT);
   double get totalOfWeek => _amountOfWeek();
   double get totalOfMonth => _amountOfMonth();
+  double get totalOfYear => _amountOfYear();
+  double get totalOfDay => _amountOfDay();
   Expense get latestExpense => sortedExpenses().first;
 
   Future<String> getJson() {
@@ -85,8 +87,21 @@ class ExpenseData extends ChangeNotifier {
     return totalAmount;
   }
 
-  double _amountOfMonth() {
-    List<Expense> _list = expensesOfMonth();
+  List<Expense> expensesOfYear() {
+    if (_expenses.isEmpty) addDataToList();
+    List<Expense> yearlyExpense = [];
+
+    _expenses.forEach((element) {
+      if (element.date.year == DateTime.now().year) {
+        yearlyExpense.add(element);
+      }
+    });
+
+    return yearlyExpense;
+  }
+
+  double _amountOfYear() {
+    List<Expense> _list = expensesOfYear();
 
     double sum = 0;
 
@@ -97,8 +112,21 @@ class ExpenseData extends ChangeNotifier {
     return sum;
   }
 
-  double _amountOfWeek() {
-    List<Expense> _list = expensesOfWeek();
+  List<Expense> expensesOfMonth() {
+    if (_expenses.isEmpty) addDataToList();
+    List<Expense> monthlyExpense = [];
+
+    _expenses.forEach((element) {
+      if (element.date.month == DateTime.now().month) {
+        monthlyExpense.add(element);
+      }
+    });
+
+    return monthlyExpense;
+  }
+
+  double _amountOfMonth() {
+    List<Expense> _list = expensesOfMonth();
 
     double sum = 0;
 
@@ -122,30 +150,41 @@ class ExpenseData extends ChangeNotifier {
     return weeklyExpense;
   }
 
-  List<Expense> expensesOfMonth() {
-    if (_expenses.isEmpty) addDataToList();
-    List<Expense> weeklyExpense = [];
+  double _amountOfWeek() {
+    List<Expense> _list = expensesOfWeek();
 
-    _expenses.forEach((element) {
-      if (element.date.month == DateTime.now().month) {
-        weeklyExpense.add(element);
-      }
+    double sum = 0;
+
+    _list.forEach((element) {
+      sum += element.amount;
     });
 
-    return weeklyExpense;
+    return sum;
   }
 
   List<Expense> expensesOfDay() {
     if (_expenses.isEmpty) addDataToList();
-    List<Expense> weeklyExpense = [];
+    List<Expense> dailyExpense = [];
 
     _expenses.forEach((element) {
       if (element.date.day == DateTime.now().day) {
-        weeklyExpense.add(element);
+        dailyExpense.add(element);
       }
     });
 
-    return weeklyExpense;
+    return dailyExpense;
+  }
+
+  double _amountOfDay() {
+    List<Expense> _list = expensesOfDay();
+
+    double sum = 0;
+
+    _list.forEach((element) {
+      sum += element.amount;
+    });
+
+    return sum;
   }
 
   void printExpenses({List<Expense> expense}) {
@@ -154,50 +193,3 @@ class ExpenseData extends ChangeNotifier {
     list.forEach((element) => print(element));
   }
 }
-
-// List<Expense> _expense = [
-//     Expense(
-//       amount: 200,
-//       category: ExpenseCategory.FOOD,
-//       time: TimeOfDay(hour: 12, minute: 10),
-//       date: DateTime.now(),
-//       note: 'Ate shwarma',
-//     ),
-//     Expense(
-//         amount: 300,
-//         category: ExpenseCategory.TRANSPORT,
-//         time: TimeOfDay(hour: 13, minute: 20),
-//         date: DateTime.parse('2020-12-27'),
-//         note: 'Sunday Trip'),
-//     Expense(
-//         amount: 100,
-//         category: ExpenseCategory.OTHERS,
-//         time: TimeOfDay(hour: 18, minute: 00),
-//         date: DateTime.parse('2020-12-26'),
-//         note: 'Can\'t remember'),
-//     Expense(
-//         amount: 170,
-//         category: ExpenseCategory.EDUCATION,
-//         time: TimeOfDay(hour: 10, minute: 00),
-//         date: DateTime.parse('2020-12-20'),
-//         note: 'Bought Notebook'),
-//     Expense(
-//         amount: 1000,
-//         category: ExpenseCategory.SHOPPING,
-//         time: TimeOfDay(hour: 12, minute: 00),
-//         date: DateTime.parse('2020-12-25'),
-//         note: 'Got Dresses'),
-//     Expense(
-//         amount: 300,
-//         category: ExpenseCategory.ENTERTAINMENT,
-//         time: TimeOfDay(hour: 16, minute: 00),
-//         date: DateTime.parse('2020-12-25'),
-//         note: 'Moviesssss'),
-//     Expense(
-//       amount: 400,
-//       category: ExpenseCategory.FOOD,
-//       time: TimeOfDay(hour: 12, minute: 10),
-//       date: DateTime.parse('2020-12-01'),
-//       note: 'Ate pizza',
-//     ),
-//   ];
