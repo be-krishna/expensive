@@ -105,6 +105,7 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
                   children: [
                     TextFormField(
                       controller: _amountController,
+                      keyboardType: TextInputType.number,
                       decoration: _inputDecoration(
                         icon: Icon(Icons.monetization_on_sharp),
                         labelText: "Amount",
@@ -151,6 +152,8 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
                         }
                         return null;
                       },
+                      onTap: () => _selectDate(context),
+                      readOnly: true,
                     ),
                     TextFormField(
                       controller: _timeController,
@@ -165,6 +168,8 @@ class _CopyAddExpenseState extends State<CopyAddExpense> {
                         }
                         return null;
                       },
+                      onTap: () => _selectTime(context),
+                      readOnly: true,
                     ),
                   ],
                 ),
