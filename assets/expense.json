@@ -145,5 +145,19 @@
         "amount": 500.0,
         "category": 3,
         "note": "Random"
+    },
+    {
+        "date": 20210217,
+        "time": "16:45",
+        "amount": 500.0,
+        "category": 5,
+        "note": "To Shank"
+    },
+    {
+        "date": 20210218,
+        "time": "12:45",
+        "amount": 500.0,
+        "category": 2,
+        "note": "Tie"
     }
 ]

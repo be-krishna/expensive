@@ -9,10 +9,10 @@ class DashboardChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ExpenseData _provider = Provider.of<ExpenseData>(context);
-    var monthsExpense = _provider.totalOfMonth;
-    var weeksExpense = _provider.totalOfWeek;
-    var yearsExpense = _provider.totalOfYear;
-    var daysExpenses = _provider.totalOfDay;
+    var monthsExpense = _provider.totalOfMonth.toInt();
+    var weeksExpense = _provider.totalOfWeek.toInt();
+    var yearsExpense = _provider.totalOfYear.toInt();
+    var daysExpenses = _provider.totalOfDay.toInt();
 
     return new charts.PieChart(
       _createSampleData(
@@ -66,7 +66,21 @@ class DashboardChart extends StatelessWidget {
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
         colorFn: (GaugeSegment segment, _) => segment.color,
+        labelAccessorFn: (GaugeSegment segment, _) =>
+            '${segment.segment.substring(0, 1)}: ₹${segment.size}',
         data: data,
+        outsideLabelStyleAccessorFn: (GaugeSegment segment, _) =>
+            charts.TextStyleSpec(
+          color: charts.Color.white,
+          fontSize: 14,
+          fontFamily: "OpenSans",
+        ),
+        insideLabelStyleAccessorFn: (GaugeSegment segment, _) =>
+            charts.TextStyleSpec(
+          color: charts.Color.white,
+          fontSize: 12,
+          fontFamily: "OpenSans",
+        ),
       )
     ];
   }
@@ -75,7 +89,7 @@ class DashboardChart extends StatelessWidget {
 /// Sample data type.
 class GaugeSegment {
   final String segment;
-  final double size;
+  final int size;
   final charts.Color color;
 
   GaugeSegment(this.segment, this.size, this.color);

@@ -1,15 +1,15 @@
-import 'package:expensive/models/expense_data.dart';
-import 'package:expensive/screens/expense_history.dart';
-import 'package:expensive/screens/recent_expenses.dart';
-import 'package:expensive/widgets/latest_epense.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../models/expense_data.dart';
 import '../widgets/dashboard_chart.dart';
+import '../widgets/latest_expense.dart';
 import '../widgets/reusable_card.dart';
 import 'add_expense.dart';
+import 'expense_history.dart';
+import 'recent_expenses.dart';
 
 const activeCardColor = Color(0xff1d1e33);
 

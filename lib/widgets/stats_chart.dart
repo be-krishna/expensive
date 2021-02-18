@@ -1,118 +1,99 @@
-/// Bar chart example
-import 'package:flutter/material.dart';
+/// Donut chart with labels example. This is a simple pie chart with a hole in
+/// the middle.
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:expensive/models/expense.dart';
+import 'package:expensive/models/expense_data.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StatsChart extends StatelessWidget {
-  final List<charts.Series> seriesList;
-  final bool animate;
-
-  StatsChart(this.seriesList, {this.animate});
-
-  /// Creates a stacked [BarChart] with sample data and no transition.
-  factory StatsChart.withSampleData() {
-    return new StatsChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return charts.BarChart(
-      seriesList,
-      animate: animate,
-      barGroupingType: charts.BarGroupingType.stacked,
+    ExpenseData _data = Provider.of<ExpenseData>(context);
+    var food = _data.totalExpenseByCategory(ExpenseCategory.FOOD).toInt();
+    var tran = _data.totalExpenseByCategory(ExpenseCategory.TRANSPORT).toInt();
+    var educ = _data.totalExpenseByCategory(ExpenseCategory.EDUCATION).toInt();
+    var shop = _data.totalExpenseByCategory(ExpenseCategory.SHOPPING).toInt();
+    var ente =
+        _data.totalExpenseByCategory(ExpenseCategory.ENTERTAINMENT).toInt();
+    var othe = _data.totalExpenseByCategory(ExpenseCategory.OTHERS).toInt();
+    return new charts.PieChart(
+      _createSampleData(
+        food: food,
+        tran: tran,
+        edu: educ,
+        shop: shop,
+        ent: ente,
+        oth: othe,
+      ),
+      animate: true,
+      // Configure the width of the pie slices to 60px. The remaining space in
+      // the chart will be left as a hole in the center.
+      //
+      // [ArcLabelDecorator] will automatically position the label inside the
+      // arc if the label will fit. If the label will not fit, it will draw
+      // outside of the arc with a leader line. Labels can always display
+      // inside or outside using [LabelPosition].
+      //
+      // Text style for inside / outside can be controlled independently by
+      // setting [insideLabelStyleSpec] and [outsideLabelStyleSpec].
+      //
+      // Example configuring different styles for inside/outside:
+      //       new charts.ArcLabelDecorator(
+      //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
+      //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
+      defaultRenderer: new charts.ArcRendererConfig(
+        arcWidth: 200,
+        arcRendererDecorators: [new charts.ArcLabelDecorator()],
+      ),
     );
   }
 
-  /// Create series list with multiple series
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final foodsAndDrinks = [
-      new OrdinalSales('Week', 5, charts.MaterialPalette.blue.shadeDefault),
-      new OrdinalSales('Month', 25, charts.MaterialPalette.blue.shadeDefault),
-      new OrdinalSales('Year', 100, charts.MaterialPalette.blue.shadeDefault),
-    ];
-
-    final transport = [
-      new OrdinalSales('Week', 15, charts.MaterialPalette.yellow.shadeDefault),
-      new OrdinalSales('Month', 20, charts.MaterialPalette.yellow.shadeDefault),
-      new OrdinalSales('Year', 80, charts.MaterialPalette.yellow.shadeDefault),
-    ];
-
-    final education = [
-      new OrdinalSales('Week', 50, charts.MaterialPalette.pink.shadeDefault),
-      new OrdinalSales('Month', 30, charts.MaterialPalette.pink.shadeDefault),
-      new OrdinalSales('Year', 40, charts.MaterialPalette.pink.shadeDefault),
-    ];
-    final shopping = [
-      new OrdinalSales('Week', 50, charts.MaterialPalette.red.shadeDefault),
-      new OrdinalSales('Month', 30, charts.MaterialPalette.red.shadeDefault),
-      new OrdinalSales('Year', 40, charts.MaterialPalette.red.shadeDefault),
-    ];
-    final entertainment = [
-      new OrdinalSales('Week', 50, charts.MaterialPalette.teal.shadeDefault),
-      new OrdinalSales('Month', 30, charts.MaterialPalette.teal.shadeDefault),
-      new OrdinalSales('Year', 40, charts.MaterialPalette.teal.shadeDefault),
-    ];
-    final others = [
-      new OrdinalSales('Week', 50, charts.MaterialPalette.green.shadeDefault),
-      new OrdinalSales('Month', 30, charts.MaterialPalette.green.shadeDefault),
-      new OrdinalSales('Year', 40, charts.MaterialPalette.green.shadeDefault),
+  static List<charts.Series<Category, int>> _createSampleData({
+    var food,
+    var tran,
+    var edu,
+    var shop,
+    var ent,
+    var oth,
+  }) {
+    final data = [
+      new Category(0, food ?? 100, charts.MaterialPalette.blue.shadeDefault),
+      new Category(1, tran ?? 100, charts.MaterialPalette.yellow.shadeDefault),
+      new Category(2, edu ?? 100, charts.MaterialPalette.pink.shadeDefault),
+      new Category(3, shop ?? 100, charts.MaterialPalette.red.shadeDefault),
+      new Category(4, ent ?? 100, charts.MaterialPalette.teal.shadeDefault),
+      new Category(5, oth ?? 100, charts.MaterialPalette.green.shadeDefault),
     ];
 
     return [
-      new charts.Series<OrdinalSales, String>(
-        id: 'Food',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        colorFn: (OrdinalSales sales, _) => sales.color,
-        data: foodsAndDrinks,
-      ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Transport',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        colorFn: (OrdinalSales sales, _) => sales.color,
-        data: transport,
-      ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Education',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        colorFn: (OrdinalSales sales, _) => sales.color,
-        data: education,
-      ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Shopping',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        colorFn: (OrdinalSales sales, _) => sales.color,
-        data: shopping,
-      ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Entertainment',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        colorFn: (OrdinalSales sales, _) => sales.color,
-        data: entertainment,
-      ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Others',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        colorFn: (OrdinalSales sales, _) => sales.color,
-        data: others,
-      ),
+      new charts.Series<Category, int>(
+        id: 'Sales',
+        domainFn: (Category category, _) => category.id,
+        measureFn: (Category category, _) => category.amount,
+        colorFn: (Category category, _) => category.color,
+        data: data,
+        // Set a label accessor to control the text of the arc label.
+        labelAccessorFn: (Category row, _) => '₹ ${row.amount}',
+        outsideLabelStyleAccessorFn: (Category row, _) => charts.TextStyleSpec(
+          color: charts.Color.white,
+          fontSize: 14,
+        ),
+        insideLabelStyleAccessorFn: (Category row, _) => charts.TextStyleSpec(
+          color: charts.Color.black,
+          fontSize: 14,
+          fontFamily: "OpenSans",
+        ),
+      )
     ];
   }
 }
 
-/// Sample ordinal data type.
-class OrdinalSales {
-  final String year;
-  final int sales;
+/// Sample linear data type.
+class Category {
+  final int id;
+  final int amount;
   final charts.Color color;
 
-  OrdinalSales(this.year, this.sales, this.color);
+  Category(this.id, this.amount, this.color);
 }

@@ -1,7 +1,7 @@
-import 'package:expensive/models/expense_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'models/expense_data.dart';
 import 'screens/dashboard.dart';
 
 void main() => runApp(MyApp());

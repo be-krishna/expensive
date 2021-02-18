@@ -1,5 +1,5 @@
-import 'package:expensive/models/expense_data.dart';
-import 'package:expensive/widgets/list_item.dart';
+import '../models/expense_data.dart';
+import 'list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

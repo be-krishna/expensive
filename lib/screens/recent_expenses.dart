@@ -1,7 +1,7 @@
-import 'package:expensive/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/expense.dart';
 import '../models/expense_data.dart';
 import '../widgets/list_item.dart';
 
@@ -46,8 +46,8 @@ class _RecentExpenseState extends State<RecentExpense> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.pink,
-        icon: Icon(Icons.sort),
-        label: Text("Sort"),
+        icon: Icon(Icons.filter_list),
+        label: Text("Filter"),
         onPressed: () async {
           List<Expense> _list = await showModalBottomSheet(
             backgroundColor: Color(0xff0a0e21),

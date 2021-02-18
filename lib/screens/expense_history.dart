@@ -27,7 +27,7 @@ class _ExpenseHistoryState extends State<ExpenseHistory> {
           Expanded(
               child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: StatsChart.withSampleData(),
+            child: StatsChart(),
           )),
           Expanded(
             child: ListView(
@@ -79,8 +79,8 @@ class _ExpenseHistoryState extends State<ExpenseHistory> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.pink,
-        icon: Icon(Icons.sort),
-        label: Text("Sort"),
+        icon: Icon(Icons.filter_list),
+        label: Text("Filter"),
         onPressed: () async {
           List<Expense> _list = await showModalBottomSheet(
             backgroundColor: Color(0xff0a0e21),
