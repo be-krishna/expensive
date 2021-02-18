@@ -16,7 +16,6 @@ class _ExpenseHistoryState extends State<ExpenseHistory> {
   @override
   Widget build(BuildContext context) {
     ExpenseData _data = Provider.of<ExpenseData>(context);
-    var data = Provider.of<ExpenseData>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -27,47 +26,52 @@ class _ExpenseHistoryState extends State<ExpenseHistory> {
           Expanded(
               child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: StatsChart(),
+            child: StatsChart(
+              expenses: _expenses,
+            ),
           )),
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(10),
               children: [
                 ListItem(
-                  amount: data.totalExpenseByCategory(ExpenseCategory.FOOD),
+                  amount: _data.totalExpenseByCategory(
+                      ExpenseCategory.FOOD, _expenses),
                   category: ExpenseCategory.FOOD,
                   note: 'Food and Drinks',
                   date: DateTime.now(),
                 ),
                 ListItem(
-                  amount:
-                      data.totalExpenseByCategory(ExpenseCategory.TRANSPORT),
+                  amount: _data.totalExpenseByCategory(
+                      ExpenseCategory.TRANSPORT, _expenses),
                   category: ExpenseCategory.TRANSPORT,
                   note: 'Transport',
                   date: DateTime.now(),
                 ),
                 ListItem(
-                  amount:
-                      data.totalExpenseByCategory(ExpenseCategory.EDUCATION),
+                  amount: _data.totalExpenseByCategory(
+                      ExpenseCategory.EDUCATION, _expenses),
                   category: ExpenseCategory.EDUCATION,
                   note: 'Education',
                   date: DateTime.now(),
                 ),
                 ListItem(
-                  amount: data.totalExpenseByCategory(ExpenseCategory.SHOPPING),
+                  amount: _data.totalExpenseByCategory(
+                      ExpenseCategory.SHOPPING, _expenses),
                   category: ExpenseCategory.SHOPPING,
                   note: 'Shopping',
                   date: DateTime.now(),
                 ),
                 ListItem(
-                  amount: data
-                      .totalExpenseByCategory(ExpenseCategory.ENTERTAINMENT),
+                  amount: _data.totalExpenseByCategory(
+                      ExpenseCategory.ENTERTAINMENT, _expenses),
                   category: ExpenseCategory.ENTERTAINMENT,
                   note: 'Entertainment',
                   date: DateTime.now(),
                 ),
                 ListItem(
-                  amount: data.totalExpenseByCategory(ExpenseCategory.OTHERS),
+                  amount: _data.totalExpenseByCategory(
+                      ExpenseCategory.OTHERS, _expenses),
                   category: ExpenseCategory.OTHERS,
                   note: 'Others',
                   date: DateTime.now(),

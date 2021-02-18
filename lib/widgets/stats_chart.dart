@@ -6,48 +6,11 @@ import 'package:expensive/models/expense_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class StatsChart extends StatelessWidget {
+class StatsChart extends StatefulWidget {
+  final List<Expense> expenses;
+  StatsChart({this.expenses});
   @override
-  Widget build(BuildContext context) {
-    ExpenseData _data = Provider.of<ExpenseData>(context);
-    var food = _data.totalExpenseByCategory(ExpenseCategory.FOOD).toInt();
-    var tran = _data.totalExpenseByCategory(ExpenseCategory.TRANSPORT).toInt();
-    var educ = _data.totalExpenseByCategory(ExpenseCategory.EDUCATION).toInt();
-    var shop = _data.totalExpenseByCategory(ExpenseCategory.SHOPPING).toInt();
-    var ente =
-        _data.totalExpenseByCategory(ExpenseCategory.ENTERTAINMENT).toInt();
-    var othe = _data.totalExpenseByCategory(ExpenseCategory.OTHERS).toInt();
-    return new charts.PieChart(
-      _createSampleData(
-        food: food,
-        tran: tran,
-        edu: educ,
-        shop: shop,
-        ent: ente,
-        oth: othe,
-      ),
-      animate: true,
-      // Configure the width of the pie slices to 60px. The remaining space in
-      // the chart will be left as a hole in the center.
-      //
-      // [ArcLabelDecorator] will automatically position the label inside the
-      // arc if the label will fit. If the label will not fit, it will draw
-      // outside of the arc with a leader line. Labels can always display
-      // inside or outside using [LabelPosition].
-      //
-      // Text style for inside / outside can be controlled independently by
-      // setting [insideLabelStyleSpec] and [outsideLabelStyleSpec].
-      //
-      // Example configuring different styles for inside/outside:
-      //       new charts.ArcLabelDecorator(
-      //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
-      //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
-      defaultRenderer: new charts.ArcRendererConfig(
-        arcWidth: 200,
-        arcRendererDecorators: [new charts.ArcLabelDecorator()],
-      ),
-    );
-  }
+  _StatsChartState createState() => _StatsChartState();
 
   static List<charts.Series<Category, int>> _createSampleData({
     var food,
@@ -86,6 +49,79 @@ class StatsChart extends StatelessWidget {
         ),
       )
     ];
+  }
+}
+
+class _StatsChartState extends State<StatsChart> {
+  @override
+  Widget build(BuildContext context) {
+    ExpenseData _data = Provider.of<ExpenseData>(context);
+    var food = _data
+        .totalExpenseByCategory(
+          ExpenseCategory.FOOD,
+          widget.expenses,
+        )
+        .toInt();
+    var tran = _data
+        .totalExpenseByCategory(
+          ExpenseCategory.TRANSPORT,
+          widget.expenses,
+        )
+        .toInt();
+    var educ = _data
+        .totalExpenseByCategory(
+          ExpenseCategory.EDUCATION,
+          widget.expenses,
+        )
+        .toInt();
+    var shop = _data
+        .totalExpenseByCategory(
+          ExpenseCategory.SHOPPING,
+          widget.expenses,
+        )
+        .toInt();
+    var ente = _data
+        .totalExpenseByCategory(
+          ExpenseCategory.ENTERTAINMENT,
+          widget.expenses,
+        )
+        .toInt();
+    var othe = _data
+        .totalExpenseByCategory(
+          ExpenseCategory.OTHERS,
+          widget.expenses,
+        )
+        .toInt();
+    return new charts.PieChart(
+      StatsChart._createSampleData(
+        food: food,
+        tran: tran,
+        edu: educ,
+        shop: shop,
+        ent: ente,
+        oth: othe,
+      ),
+      animate: true,
+      // Configure the width of the pie slices to 60px. The remaining space in
+      // the chart will be left as a hole in the center.
+      //
+      // [ArcLabelDecorator] will automatically position the label inside the
+      // arc if the label will fit. If the label will not fit, it will draw
+      // outside of the arc with a leader line. Labels can always display
+      // inside or outside using [LabelPosition].
+      //
+      // Text style for inside / outside can be controlled independently by
+      // setting [insideLabelStyleSpec] and [outsideLabelStyleSpec].
+      //
+      // Example configuring different styles for inside/outside:
+      //       new charts.ArcLabelDecorator(
+      //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
+      //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
+      defaultRenderer: new charts.ArcRendererConfig(
+        arcWidth: 200,
+        arcRendererDecorators: [new charts.ArcLabelDecorator()],
+      ),
+    );
   }
 }
 
