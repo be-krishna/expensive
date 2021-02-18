@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +21,29 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Widget _latestExpnse = CircularProgressIndicator();
+  Timer _timer;
+
+  void load() {
+    _timer = new Timer(const Duration(milliseconds: 400), () {
+      setState(() {
+        _latestExpnse = LatestExpense();
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    load();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,12 +64,12 @@ class _InputPageState extends State<InputPage> {
               flex: 3,
               child: ReusableCard(
                 color: Colors.transparent,
-                cardChild: Hero(tag:"chart", child: DashboardChart()),
+                cardChild: Hero(tag: "chart", child: DashboardChart()),
               ),
             ),
             // Expanded(child: ReusableCard(color: activeCardColor)),
             Expanded(
-              child: LatestExpense(),
+              child: _latestExpnse,
             ),
             // TransactionItem(),
             Expanded(
