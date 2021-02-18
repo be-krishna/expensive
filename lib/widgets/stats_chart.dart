@@ -118,7 +118,7 @@ class _StatsChartState extends State<StatsChart> {
       //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
       //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
       defaultRenderer: new charts.ArcRendererConfig(
-        arcWidth: 200,
+        arcWidth: 100,
         arcRendererDecorators: [new charts.ArcLabelDecorator()],
       ),
     );

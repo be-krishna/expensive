@@ -26,8 +26,11 @@ class _ExpenseHistoryState extends State<ExpenseHistory> {
           Expanded(
               child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: StatsChart(
-              expenses: _expenses,
+            child: Hero(
+              tag: "chart",
+              child: StatsChart(
+                expenses: _expenses,
+              ),
             ),
           )),
           Expanded(

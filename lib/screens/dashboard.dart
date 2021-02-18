@@ -39,7 +39,7 @@ class _InputPageState extends State<InputPage> {
               flex: 3,
               child: ReusableCard(
                 color: Colors.transparent,
-                cardChild: DashboardChart(),
+                cardChild: Hero(tag:"chart", child: DashboardChart()),
               ),
             ),
             // Expanded(child: ReusableCard(color: activeCardColor)),
