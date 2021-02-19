@@ -69,7 +69,10 @@ class ListItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: Colors.pink),
+        ),
         color: Color(0xff090723),
         child: ListTile(
           leading: getIcon(category),
