@@ -32,12 +32,17 @@ class _RecentExpenseState extends State<RecentExpense> {
                 var temp = _data.sortedExpenses(
                     customList: _expenses ?? _data.expenses);
                 var entry = temp[index];
-                return ListItem(
-                  amount: entry.amount,
-                  note: entry.note,
-                  date: entry.date,
-                  category: entry.category,
-                  time: entry.time,
+                return Dismissible(
+                  key: Key(entry.id.toString()),
+                  child: ListItem(
+                    amount: entry.amount,
+                    note: entry.note,
+                    date: entry.date,
+                    category: entry.category,
+                    time: entry.time,
+                  ),
+                  onDismissed: (DismissDirection direction) =>
+                      _data.removeDataFromList(entry.id),
                 );
               },
             ),

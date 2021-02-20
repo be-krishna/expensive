@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,8 +31,6 @@ class ExpenseData extends ChangeNotifier {
   double get totalOfDay => _amountOfDay();
   Expense get latestExpense => sortedExpenses().first;
 
-  set setExpenses(List<Expense> expenses) => _expenses = expenses;
-
   // Future<String> getJson() {
   //   return rootBundle.loadString('assets/expense.json');
   // }
@@ -66,7 +63,23 @@ class ExpenseData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addExpense({date, time, amount, category, note}) {
+  void removeDataFromList(int id) async {
+    await _dbHelper.deleteExpense(id);
+    _refreshExpenseList();
+  }
+
+  _refreshExpenseList() async {
+    _expenses = await _dbHelper.fetchExpenses();
+    notifyListeners();
+  }
+
+  void addExpense({
+    DateTime date,
+    TimeOfDay time,
+    double amount,
+    ExpenseCategory category,
+    String note,
+  }) {
     Expense newExpense = Expense(
       amount: amount,
       category: category,
@@ -75,7 +88,9 @@ class ExpenseData extends ChangeNotifier {
       time: time,
     );
 
-    _expenses.add(newExpense);
+    _dbHelper.insertExpense(newExpense);
+    // _expenses.add(newExpense);
+    _refreshExpenseList();
     notifyListeners();
   }
 

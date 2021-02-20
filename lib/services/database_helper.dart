@@ -62,7 +62,7 @@ class DatabaseHelper {
     Database db = await database;
     return await db.delete(
       Expense.tblExpense,
-      where: '${Expense.colId}',
+      where: '${Expense.colId}=?',
       whereArgs: [id],
     );
   }
