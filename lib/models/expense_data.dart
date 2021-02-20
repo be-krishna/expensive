@@ -1,15 +1,18 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/database_helper.dart';
 import 'expense.dart';
 
 class ExpenseData extends ChangeNotifier {
-  // ExpenseData() {
-  //   addDataToList();
-  //   notifyListeners();
-  // }
+  DatabaseHelper _dbHelper;
+  ExpenseData() {
+    _dbHelper = DatabaseHelper.instance;
+    _firstRun();
+    addDataToList();
+    notifyListeners();
+  }
   List<Expense> _expenses = [];
 
   List<Expense> get expenses => _expenses;
@@ -31,14 +34,33 @@ class ExpenseData extends ChangeNotifier {
 
   set setExpenses(List<Expense> expenses) => _expenses = expenses;
 
-  Future<String> getJson() {
-    return rootBundle.loadString('assets/expense.json');
+  // Future<String> getJson() {
+  //   return rootBundle.loadString('assets/expense.json');
+  // }
+
+  void _firstRun() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _firstRun = prefs.getBool('_firstRun') ?? true;
+    if (_firstRun) {
+      _dbHelper.insertExpense(
+        Expense(
+          amount: 500,
+          category: ExpenseCategory.FOOD,
+          date: DateTime.now(),
+          time: TimeOfDay(hour: 10, minute: 12),
+          note: "Example title",
+        ),
+      );
+      await prefs.setBool('_firstRun', false);
+    }
   }
 
   void addDataToList() async {
-    final List parsed = json.decode(await getJson());
+    // final List parsed = json.decode(await getJson());
 
-    List<Expense> list = parsed.map((e) => Expense.fromJson(e)).toList();
+    // List<Expense> list = parsed.map((e) => Expense.fromJson(e)).toList();
+
+    List<Expense> list = await _dbHelper.fetchExpenses();
 
     _expenses = list;
     notifyListeners();

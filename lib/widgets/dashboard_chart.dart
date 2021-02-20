@@ -9,10 +9,10 @@ class DashboardChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ExpenseData _provider = Provider.of<ExpenseData>(context);
-    var monthsExpense = _provider.totalOfMonth.toInt();
-    var weeksExpense = _provider.totalOfWeek.toInt();
-    var yearsExpense = _provider.totalOfYear.toInt();
-    var daysExpenses = _provider.totalOfDay.toInt();
+    var monthsExpense = _provider.totalOfMonth.toInt() ?? 100;
+    var weeksExpense = _provider.totalOfWeek.toInt() ?? 100;
+    var yearsExpense = _provider.totalOfYear.toInt() ?? 100;
+    var daysExpenses = _provider.totalOfDay.toInt() ?? 100;
 
     return new charts.PieChart(
       _createSampleData(
@@ -51,13 +51,13 @@ class DashboardChart extends StatelessWidget {
       {var month, var week, var year, var day}) {
     final data = [
       new GaugeSegment(
-          'Year \n $year', year ?? 200, charts.Color.fromHex(code: '#C2185B')),
-      new GaugeSegment('Month \n $month', month ?? 150,
-          charts.Color.fromHex(code: '#EC407A')),
+          'Year \n $year', year, charts.Color.fromHex(code: '#C2185B')),
       new GaugeSegment(
-          'Week \n $week', week ?? 100, charts.Color.fromHex(code: '#F48FB1')),
+          'Month \n $month', month, charts.Color.fromHex(code: '#EC407A')),
       new GaugeSegment(
-          'Day \n $day', day ?? 100, charts.Color.fromHex(code: '#FCE4EC')),
+          'Week \n $week', week, charts.Color.fromHex(code: '#F48FB1')),
+      new GaugeSegment(
+          'Day \n $day', day, charts.Color.fromHex(code: '#FCE4EC')),
     ];
 
     return [

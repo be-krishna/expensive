@@ -23,7 +23,6 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Widget _latestExpnse = CircularProgressIndicator();
   Timer _timer;
-
   void load() {
     _timer = new Timer(const Duration(milliseconds: 400), () {
       setState(() {
@@ -35,6 +34,7 @@ class _InputPageState extends State<InputPage> {
   @override
   void initState() {
     load();
+    setState(() {});
     super.initState();
   }
 
