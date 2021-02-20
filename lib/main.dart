@@ -9,12 +9,7 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -23,7 +18,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         home: InputPage(),
         theme: ThemeData.dark().copyWith(
-          primaryColor: Color(0xff0a0e21),
+          primaryColor: Color(0xff090723),
           accentColor: Colors.pink,
           scaffoldBackgroundColor: Color(0xff090723),
         ),

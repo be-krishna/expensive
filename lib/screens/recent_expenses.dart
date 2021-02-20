@@ -22,7 +22,6 @@ class _RecentExpenseState extends State<RecentExpense> {
       ),
       body: Column(
         children: [
-          //* Add Sort Functionality
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 10),

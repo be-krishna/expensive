@@ -21,8 +21,11 @@ class LatestExpense extends StatelessWidget {
             onTapCallback: () {},
           );
         } catch (e) {
-          return LinearProgressIndicator(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          return Center(
+            child: Text(
+              "Add Your First Expense",
+              style: TextStyle(fontSize: 22, fontFamily: "OpenSans"),
+            ),
           );
         }
       },

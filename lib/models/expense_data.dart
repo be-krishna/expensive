@@ -53,10 +53,6 @@ class ExpenseData extends ChangeNotifier {
   }
 
   void addDataToList() async {
-    // final List parsed = json.decode(await getJson());
-
-    // List<Expense> list = parsed.map((e) => Expense.fromJson(e)).toList();
-
     List<Expense> list = await _dbHelper.fetchExpenses();
 
     _expenses = list;
@@ -89,7 +85,6 @@ class ExpenseData extends ChangeNotifier {
     );
 
     _dbHelper.insertExpense(newExpense);
-    // _expenses.add(newExpense);
     _refreshExpenseList();
     notifyListeners();
   }
