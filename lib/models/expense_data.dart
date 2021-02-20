@@ -6,10 +6,10 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'expense.dart';
 
 class ExpenseData extends ChangeNotifier {
-  ExpenseData() {
-    addDataToList();
-    notifyListeners();
-  }
+  // ExpenseData() {
+  //   addDataToList();
+  //   notifyListeners();
+  // }
   List<Expense> _expenses = [];
 
   List<Expense> get expenses => _expenses;
@@ -28,6 +28,8 @@ class ExpenseData extends ChangeNotifier {
   double get totalOfYear => _amountOfYear();
   double get totalOfDay => _amountOfDay();
   Expense get latestExpense => sortedExpenses().first;
+
+  set setExpenses(List<Expense> expenses) => _expenses = expenses;
 
   Future<String> getJson() {
     return rootBundle.loadString('assets/expense.json');

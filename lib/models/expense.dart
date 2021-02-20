@@ -31,6 +31,7 @@ class Expense implements Comparable<Expense> {
     @required this.category,
     @required this.time,
     this.note,
+    this.id,
   });
 
   Expense.fromJson(Map<String, dynamic> json) {
@@ -42,6 +43,40 @@ class Expense implements Comparable<Expense> {
       hour: int.parse(json['time'].split(':').first),
       minute: int.parse(json['time'].split(':').last),
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {
+      'date': date.toIso8601String(),
+      'time': _timeToString(time),
+      'amount': amount,
+      'category': category.index,
+      'note': note,
+    };
+
+    if (id != null) {
+      map['id'] = id;
+    }
+
+    return map;
+  }
+
+  Expense.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    date = DateTime.parse(map['date']);
+    time = _stringToTime(map['time']);
+    amount = map['amount'];
+    category = getCategory(map['category']);
+    note = map['note'];
+  }
+
+  String _timeToString(TimeOfDay timeOfDay) {
+    return '${timeOfDay.hour}:${timeOfDay.minute}';
+  }
+
+  TimeOfDay _stringToTime(String s) {
+    return TimeOfDay(
+        hour: int.parse(s.split(":")[0]), minute: int.parse(s.split(":")[1]));
   }
 
   ExpenseCategory getCategory(int index) {
