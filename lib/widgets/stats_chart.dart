@@ -39,6 +39,7 @@ class StatsChart extends StatefulWidget {
         outsideLabelStyleAccessorFn: (Category row, _) => charts.TextStyleSpec(
           color: charts.Color.white,
           fontSize: 14,
+          fontFamily: "OpenSans",
         ),
         insideLabelStyleAccessorFn: (Category row, _) => charts.TextStyleSpec(
           color: charts.Color.black,
@@ -107,6 +108,7 @@ class _StatsChartState extends State<StatsChart> {
     );
   }
 }
+
 class Category {
   final int id;
   final int amount;

@@ -11,14 +11,17 @@ class LatestExpense extends StatelessWidget {
     return Consumer<ExpenseData>(
       builder: (context, value, child) {
         try {
-          return ListItem(
-            amount: value.latestExpense.amount ?? 0,
-            category: value.latestExpense.category ?? ExpenseCategory.OTHERS,
-            date: value.latestExpense.date ?? DateTime.now(),
-            note: value.latestExpense.note ?? "Loading ...",
-            time: value.latestExpense.time ??
-                TimeOfDay.fromDateTime(DateTime.now()),
-            onTapCallback: () {},
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: ListItem(
+              amount: value.latestExpense.amount ?? 0,
+              category: value.latestExpense.category ?? ExpenseCategory.OTHERS,
+              date: value.latestExpense.date ?? DateTime.now(),
+              note: value.latestExpense.note ?? "Loading ...",
+              time: value.latestExpense.time ??
+                  TimeOfDay.fromDateTime(DateTime.now()),
+              onTapCallback: () {},
+            ),
           );
         } catch (e) {
           return Center(

@@ -52,7 +52,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
       value: selectedCategory,
       items: getDropdownItems(),
       onChanged: widget.onChangeFunction,
-      dropdownColor: Color(0xff0a0e21),
+      dropdownColor: Color(0xff090723),
       validator: widget.formValidator,
       decoration: InputDecoration(
         labelText: "Category",

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +11,7 @@ import 'add_expense.dart';
 import 'expense_history.dart';
 import 'recent_expenses.dart';
 
-const activeCardColor = Color(0xff1d1e33);
+const activeCardColor = Color(0xff090723);
 
 class InputPage extends StatefulWidget {
   @override
@@ -21,57 +19,37 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Widget _latestExpnse = CircularProgressIndicator();
-  Timer _timer;
-  void load() {
-    _timer = new Timer(const Duration(milliseconds: 400), () {
-      setState(() {
-        _latestExpnse = LatestExpense();
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    load();
-    setState(() {});
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Expensive",
+          style: TextStyle(fontFamily: "OpenSans"),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {},
+        ),
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage('assets/images/profile.png'),
-                foregroundImage: AssetImage('assets/images/profile.png'),
-              ),
-            ),
             Expanded(
               flex: 3,
               child: ReusableCard(
                 color: Colors.transparent,
+                border: false,
                 cardChild: Hero(tag: "chart", child: DashboardChart()),
               ),
             ),
-            // Expanded(child: ReusableCard(color: activeCardColor)),
             Expanded(
-              child: _latestExpnse,
+              child: LatestExpense(),
             ),
-            // TransactionItem(),
             Expanded(
               flex: 2,
               child: Row(

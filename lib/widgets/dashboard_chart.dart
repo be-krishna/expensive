@@ -67,6 +67,7 @@ class DashboardChart extends StatelessWidget {
     ];
   }
 }
+
 class GaugeSegment {
   final String segment;
   final int size;
