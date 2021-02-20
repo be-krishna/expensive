@@ -27,6 +27,7 @@ class _InputPageState extends State<InputPage> {
           "Expensive",
           style: TextStyle(fontFamily: "OpenSans"),
         ),
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -74,7 +75,7 @@ class _InputPageState extends State<InputPage> {
                           SizedBox(height: 15),
                           Text(
                             "History",
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                            style: TextStyle(fontSize: 18, color: Colors.grey, fontFamily: 'OpenSans'),
                           )
                         ],
                       ),
@@ -99,7 +100,7 @@ class _InputPageState extends State<InputPage> {
                           SizedBox(height: 15),
                           Text(
                             "Statistics",
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                            style: TextStyle(fontSize: 18, color: Colors.grey, fontFamily: 'OpenSans'),
                           )
                         ],
                       ),

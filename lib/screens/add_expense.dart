@@ -87,7 +87,7 @@ class _AddExpenseState extends State<AddExpense> {
                     TextFormField(
                       controller: _amountController,
                       keyboardType: TextInputType.number,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontFamily: 'OpenSans', fontSize: 16),
                       decoration: _inputDecoration(
                         icon: Icon(Icons.monetization_on_sharp),
                         labelText: "Amount",
@@ -110,7 +110,7 @@ class _AddExpenseState extends State<AddExpense> {
                     ),
                     TextFormField(
                       controller: _noteController,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontFamily: 'OpenSans', fontSize: 16),
                       decoration: _inputDecoration(
                         icon: Icon(Icons.note_add),
                         labelText: "Detail",
@@ -140,7 +140,7 @@ class _AddExpenseState extends State<AddExpense> {
                         icon: Icon(Icons.calendar_today),
                         labelText: "Date",
                       ),
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontFamily: 'OpenSans', fontSize: 16),
                       validator: (value) {
                         if (value.isEmpty) {
                           return "Enter Date";
@@ -156,7 +156,7 @@ class _AddExpenseState extends State<AddExpense> {
                         icon: Icon(Icons.alarm),
                         labelText: "Time",
                       ),
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontFamily: 'OpenSans', fontSize: 16),
                       validator: (value) {
                         if (value.isEmpty) {
                           return "Enter Time";

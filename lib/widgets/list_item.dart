@@ -78,7 +78,7 @@ class ListItem extends StatelessWidget {
           leading: getIcon(category),
           title: Text(
             note,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18, fontFamily: 'OpenSans'),
           ),
           subtitle: Text('${DateFormat.yMMMMd().format(date)}'),
           trailing: Text('${formatter.format(amount)}'),
