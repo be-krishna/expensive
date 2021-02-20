@@ -10,6 +10,15 @@ enum ExpenseCategory {
 }
 
 class Expense implements Comparable<Expense> {
+  static const tblExpense = 'expenses';
+  static const colId = 'id';
+  static const colAmt = 'amount';
+  static const colDate = 'date';
+  static const colCat = 'category';
+  static const colNote = 'note';
+  static const colTime = 'time';
+
+  int id;
   double amount;
   DateTime date;
   ExpenseCategory category;
