@@ -74,4 +74,9 @@ class DatabaseHelper {
         ? []
         : expenses.map((e) => Expense.fromMap(e)).toList();
   }
+
+  Future<int> cleanTable() async {
+    Database db = await database;
+    return db.rawDelete("DELETE FROM ${Expense.tblExpense}");
+  }
 }

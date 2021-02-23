@@ -29,10 +29,8 @@ class FileHandler {
     try {
       File file = File(result.files.single.path);
       String contents = await file.readAsString();
-      List parsed = jsonDecode(contents);
+      // List parsed = jsonDecode(contents);
       // _expenseData.addDataToListFromJson(jsonDecode(contents));
-      print(parsed);
-
       return contents;
     } catch (e) {
       print(e.toString());

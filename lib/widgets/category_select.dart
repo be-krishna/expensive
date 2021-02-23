@@ -20,7 +20,7 @@ class ChooseCategory extends StatefulWidget {
 }
 
 class _ChooseCategoryState extends State<ChooseCategory> {
-  ExpenseCategory selectedCategory = ExpenseCategory.FOOD;
+  ExpenseCategory selectedCategory;
 
   List<DropdownMenuItem> getDropdownItems() {
     List<DropdownMenuItem<ExpenseCategory>> menuItems = [];

@@ -44,11 +44,12 @@ class DrawerChild extends StatelessWidget {
                       style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
                     ),
                     trailing: Icon(Icons.file_download),
-                    onTap: () {
-                      // Update the state of the app.
-                      // ...
-                      value.importFromJson();
+                    onTap: () async {
+                      bool imported = await value.importFromJson();
                       Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content:
+                              imported ? Text("Imported") : Text("Error")));
                     },
                   ),
                 ),
@@ -61,11 +62,62 @@ class DrawerChild extends StatelessWidget {
                       style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
                     ),
                     trailing: Icon(Icons.file_upload),
+                    onTap: () async {
+                      var message = await value.exportToJson();
+                      message = message.split("/").last;
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("$message saved to Downloads folder")));
+                    },
+                  ),
+                ),
+                Consumer<ExpenseData>(
+                  builder: (context, value, _) => ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    title: Text(
+                      'Clear DB',
+                      style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
+                    ),
+                    trailing: Icon(Icons.delete),
                     onTap: () {
-                      // Update the state of the app.
-                      // ...
-                      // value.exportToJson();
-                      value.exportToJson();
+                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          content: Text("Are you sure?"),
+                          title: Text("Clear Database"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                value.clearTable();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Database Cleared")),
+                                );
+                              },
+                              child: Text(
+                                "Yes",
+                                style: TextStyle(
+                                  color: Colors.pink,
+                                  fontFamily: "OpenSans",
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Text(
+                                "No",
+                                style: TextStyle(
+                                  color: Colors.pink,
+                                  fontFamily: "OpenSans",
+                                ),
+                              ),
+                            ),
+                          ],
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                      );
                     },
                   ),
                 ),

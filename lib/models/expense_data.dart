@@ -57,7 +57,7 @@ class ExpenseData extends ChangeNotifier {
     }
   }
 
-  void importFromJson() async {
+  Future<bool> importFromJson() async {
     List parsed;
     try {
       parsed = json.decode(await FileHandler.readFromFile());
@@ -66,21 +66,29 @@ class ExpenseData extends ChangeNotifier {
       list.forEach((element) => _dbHelper.insertExpense(element));
       _refreshExpenseList();
       notifyListeners();
+      return true;
     } catch (e) {
       print(e.toString());
+      return false;
     }
   }
 
-  void exportToJson() async {
+  Future<String> exportToJson() async {
     try {
       List<Expense> exp = await _dbHelper.fetchExpenses();
       String jsonData = jsonEncode(exp);
-      File file = await FileHandler.writeToFile("jsonData");
-      print(file.path);
-      print(jsonData);
+      File file = await FileHandler.writeToFile(jsonData);
+      return file.path;
     } catch (e) {
       print(e.toString());
+      return "Export Error";
     }
+  }
+
+  void clearTable() async {
+    await _dbHelper.cleanTable();
+    _refreshExpenseList();
+    notifyListeners();
   }
 
   void addDataToList() async {
