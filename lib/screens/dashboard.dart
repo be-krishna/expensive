@@ -1,4 +1,3 @@
-import 'package:expensive/widgets/drawer_child.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../models/expense_data.dart';
 import '../widgets/dashboard_chart.dart';
+import '../widgets/drawer_child.dart';
 import '../widgets/latest_expense.dart';
 import '../widgets/reusable_card.dart';
 import 'add_expense.dart';

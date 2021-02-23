@@ -1,5 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:expensive/models/expense_data.dart';
+import '../models/expense_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
