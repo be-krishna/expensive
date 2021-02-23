@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/database_helper.dart';
@@ -31,9 +34,9 @@ class ExpenseData extends ChangeNotifier {
   double get totalOfDay => _amountOfDay();
   Expense get latestExpense => sortedExpenses().first;
 
-  // Future<String> getJson() {
-  //   return rootBundle.loadString('assets/expense.json');
-  // }
+  Future<String> getJson() {
+    return rootBundle.loadString('assets/expense.json');
+  }
 
   void _firstRun() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,6 +53,22 @@ class ExpenseData extends ChangeNotifier {
       );
       await prefs.setBool('_firstRun', false);
     }
+  }
+
+  void addDataToListFromJson() async {
+    final List parsed = json.decode(await getJson());
+
+    List<Expense> list = parsed.map((e) => Expense.fromMap(e)).toList();
+
+    list.forEach((element) => _dbHelper.insertExpense(element));
+    _refreshExpenseList();
+    notifyListeners();
+  }
+
+  void exportToJson() async {
+    List<Expense> exp = await _dbHelper.fetchExpenses();
+    String jsonData = jsonEncode(exp);
+    print(jsonData);
   }
 
   void addDataToList() async {

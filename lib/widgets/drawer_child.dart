@@ -1,4 +1,6 @@
+import 'package:expensive/models/expense_data.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // <div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
@@ -33,31 +35,37 @@ class DrawerChild extends StatelessWidget {
                     ),
                   ),
                 ),
-                ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  title: Text(
-                    'Import',
-                    style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
+                Consumer<ExpenseData>(
+                  builder: (context, value, _) => ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    title: Text(
+                      'Import',
+                      style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
+                    ),
+                    trailing: Icon(Icons.file_download),
+                    onTap: () {
+                      // Update the state of the app.
+                      // ...
+                      value.addDataToListFromJson();
+                    },
                   ),
-                  trailing: Icon(Icons.file_download),
-                  onTap: () {
-                    // Update the state of the app.
-                    // ...
-                  },
                 ),
-                ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  title: Text(
-                    'Export',
-                    style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
+                Consumer<ExpenseData>(
+                  builder: (context, value, _) => ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    title: Text(
+                      'Export',
+                      style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
+                    ),
+                    trailing: Icon(Icons.file_upload),
+                    onTap: () {
+                      // Update the state of the app.
+                      // ...
+                      value.exportToJson();
+                    },
                   ),
-                  trailing: Icon(Icons.file_upload),
-                  onTap: () {
-                    // Update the state of the app.
-                    // ...
-                  },
                 ),
               ],
             ),

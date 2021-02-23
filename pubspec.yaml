@@ -26,12 +26,13 @@ dependencies:
   charts_flutter: ^0.9.0
   cupertino_icons: ^1.0.2
   font_awesome_flutter: ^8.11.0
-  intl: null
+  intl: any
   path: ^1.8.0
   path_provider: any
   provider: ^4.3.3
   shared_preferences: ^0.5.12+4
   sqflite: any
+  file_picker: ^2.1.6
 
 dev_dependencies:
   flutter_test:

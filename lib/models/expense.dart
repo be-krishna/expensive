@@ -61,6 +61,16 @@ class Expense implements Comparable<Expense> {
     return map;
   }
 
+  Map toJson() {
+    return {
+      'date': date.toIso8601String(),
+      'time': _timeToString(time),
+      'amount': amount,
+      'category': category.index,
+      'note': note,
+    };
+  }
+
   Expense.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     date = DateTime.parse(map['date']);
