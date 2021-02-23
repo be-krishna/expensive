@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'models/expense_data.dart';
@@ -6,7 +7,9 @@ import 'screens/dashboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((value) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
