@@ -47,7 +47,8 @@ class DrawerChild extends StatelessWidget {
                     onTap: () {
                       // Update the state of the app.
                       // ...
-                      value.addDataToListFromJson();
+                      value.importFromJson();
+                      Navigator.of(context).pop();
                     },
                   ),
                 ),
@@ -63,6 +64,7 @@ class DrawerChild extends StatelessWidget {
                     onTap: () {
                       // Update the state of the app.
                       // ...
+                      // value.exportToJson();
                       value.exportToJson();
                     },
                   ),

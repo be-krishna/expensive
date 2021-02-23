@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:expensive/services/file_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,20 +57,30 @@ class ExpenseData extends ChangeNotifier {
     }
   }
 
-  void addDataToListFromJson() async {
-    final List parsed = json.decode(await getJson());
+  void importFromJson() async {
+    List parsed;
+    try {
+      parsed = json.decode(await FileHandler.readFromFile());
+      List<Expense> list = parsed.map((e) => Expense.fromMap(e)).toList();
 
-    List<Expense> list = parsed.map((e) => Expense.fromMap(e)).toList();
-
-    list.forEach((element) => _dbHelper.insertExpense(element));
-    _refreshExpenseList();
-    notifyListeners();
+      list.forEach((element) => _dbHelper.insertExpense(element));
+      _refreshExpenseList();
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void exportToJson() async {
-    List<Expense> exp = await _dbHelper.fetchExpenses();
-    String jsonData = jsonEncode(exp);
-    print(jsonData);
+    try {
+      List<Expense> exp = await _dbHelper.fetchExpenses();
+      String jsonData = jsonEncode(exp);
+      File file = await FileHandler.writeToFile("jsonData");
+      print(file.path);
+      print(jsonData);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void addDataToList() async {
