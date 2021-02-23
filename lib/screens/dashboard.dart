@@ -1,3 +1,4 @@
+import 'package:expensive/widgets/drawer_child.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -19,9 +20,11 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           "Expensive",
@@ -32,7 +35,13 @@ class _InputPageState extends State<InputPage> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.menu),
-          onPressed: () {},
+          onPressed: () => _scaffoldKey.currentState.openDrawer(),
+        ),
+      ),
+      drawer: Theme(
+        data: Theme.of(context).copyWith(canvasColor: activeCardColor),
+        child: Drawer(
+          child: DrawerChild(),
         ),
       ),
       body: SafeArea(
@@ -75,7 +84,10 @@ class _InputPageState extends State<InputPage> {
                           SizedBox(height: 15),
                           Text(
                             "History",
-                            style: TextStyle(fontSize: 18, color: Colors.grey, fontFamily: 'OpenSans'),
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                                fontFamily: 'OpenSans'),
                           )
                         ],
                       ),
@@ -100,7 +112,10 @@ class _InputPageState extends State<InputPage> {
                           SizedBox(height: 15),
                           Text(
                             "Statistics",
-                            style: TextStyle(fontSize: 18, color: Colors.grey, fontFamily: 'OpenSans'),
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                                fontFamily: 'OpenSans'),
                           )
                         ],
                       ),
