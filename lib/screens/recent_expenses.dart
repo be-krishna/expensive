@@ -19,6 +19,11 @@ class _RecentExpenseState extends State<RecentExpense> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        title: Text(
+          'Recent',
+          style: TextStyle(fontFamily: 'OpenSans'),
+        ),
+        centerTitle: true,
       ),
       body: Column(
         children: [

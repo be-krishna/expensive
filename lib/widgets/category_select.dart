@@ -48,7 +48,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField(
+    return DropdownButtonFormField<ExpenseCategory>(
       value: selectedCategory,
       items: getDropdownItems(),
       onChanged: widget.onChangeFunction,

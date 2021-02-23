@@ -19,6 +19,11 @@ class _ExpenseHistoryState extends State<ExpenseHistory> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        title: Text(
+          'Statistics',
+          style: TextStyle(fontFamily: 'OpenSans'),
+        ),
+        centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

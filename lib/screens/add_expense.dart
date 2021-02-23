@@ -69,6 +69,11 @@ class _AddExpenseState extends State<AddExpense> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        title: Text(
+          'Add New',
+          style: TextStyle(fontFamily: 'OpenSans'),
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
