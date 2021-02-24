@@ -2,9 +2,10 @@
     package="com.example.expensive">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:requestLegacyExternalStorage="true"
-        android:label="expensive"
+        android:label="Expensive"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

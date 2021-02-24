@@ -195,7 +195,7 @@ class _AddExpenseState extends State<AddExpense> {
 
                   FocusScope.of(context).unfocus();
 
-                  ScaffoldMessenger.of(context).showSnackBar(
+                  Scaffold.of(context).showSnackBar(
                     SnackBar(content: Text('Task added')),
                   );
                 } else {

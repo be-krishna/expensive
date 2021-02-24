@@ -48,7 +48,7 @@ class DrawerChild extends StatelessWidget {
                     onTap: () async {
                       bool imported = await value.importFromJson();
                       Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      Scaffold.of(context).showSnackBar(SnackBar(
                           content:
                               imported ? Text("Imported") : Text("Error")));
                     },
@@ -67,7 +67,7 @@ class DrawerChild extends StatelessWidget {
                       var message = await value.exportToJson();
                       message = message.split("/").last;
                       Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text("$message saved to Downloads folder")));
                     },
                   ),
@@ -93,7 +93,7 @@ class DrawerChild extends StatelessWidget {
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 value.clearTable();
-                                ScaffoldMessenger.of(context).showSnackBar(
+                                Scaffold.of(context).showSnackBar(
                                   SnackBar(content: Text("Database Cleared")),
                                 );
                               },
