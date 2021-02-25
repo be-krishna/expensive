@@ -128,7 +128,7 @@ class _AddExpenseState extends State<AddExpense> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          note = value;
+                          note = value.toString();
                         });
                       },
                     ),
