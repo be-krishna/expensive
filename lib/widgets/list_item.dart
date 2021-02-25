@@ -80,7 +80,8 @@ class ListItem extends StatelessWidget {
             note,
             style: TextStyle(fontSize: 18, fontFamily: 'OpenSans'),
           ),
-          subtitle: Text('${DateFormat.yMMMMd().format(date)}'),
+          subtitle:
+              date != null ? Text('${DateFormat.yMMMMd().format(date)}') : null,
           trailing: Text('${formatter.format(amount)}'),
           contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           onTap: onTapCallback,

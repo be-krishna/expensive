@@ -47,42 +47,42 @@ class _ExpenseHistoryState extends State<ExpenseHistory> {
                       ExpenseCategory.FOOD, _expenses),
                   category: ExpenseCategory.FOOD,
                   note: 'Food and Drinks',
-                  date: DateTime.now(),
+                  // date: DateTime.now(),
                 ),
                 ListItem(
                   amount: _data.totalExpenseByCategory(
                       ExpenseCategory.TRANSPORT, _expenses),
                   category: ExpenseCategory.TRANSPORT,
                   note: 'Transport',
-                  date: DateTime.now(),
+                  // date: DateTime.now(),
                 ),
                 ListItem(
                   amount: _data.totalExpenseByCategory(
                       ExpenseCategory.EDUCATION, _expenses),
                   category: ExpenseCategory.EDUCATION,
                   note: 'Education',
-                  date: DateTime.now(),
+                  // date: DateTime.now(),
                 ),
                 ListItem(
                   amount: _data.totalExpenseByCategory(
                       ExpenseCategory.SHOPPING, _expenses),
                   category: ExpenseCategory.SHOPPING,
                   note: 'Shopping',
-                  date: DateTime.now(),
+                  // date: DateTime.now(),
                 ),
                 ListItem(
                   amount: _data.totalExpenseByCategory(
                       ExpenseCategory.ENTERTAINMENT, _expenses),
                   category: ExpenseCategory.ENTERTAINMENT,
                   note: 'Entertainment',
-                  date: DateTime.now(),
+                  // date: DateTime.now(),
                 ),
                 ListItem(
                   amount: _data.totalExpenseByCategory(
                       ExpenseCategory.OTHERS, _expenses),
                   category: ExpenseCategory.OTHERS,
                   note: 'Others',
-                  date: DateTime.now(),
+                  // date: DateTime.now(),
                 ),
               ],
             ),
