@@ -7,10 +7,10 @@ class DashboardChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ExpenseData _provider = Provider.of<ExpenseData>(context);
-    var monthsExpense = _provider.totalOfMonth.toInt() ?? 100;
-    var weeksExpense = _provider.totalOfWeek.toInt() ?? 100;
-    var yearsExpense = _provider.totalOfYear.toInt() ?? 100;
-    var daysExpenses = _provider.totalOfDay.toInt() ?? 100;
+    var monthsExpense = _provider.totalOfMonth ?? 100;
+    var weeksExpense = _provider.totalOfWeek ?? 100;
+    var yearsExpense = _provider.totalOfYear ?? 100;
+    var daysExpenses = _provider.totalOfDay ?? 100;
 
     return new charts.PieChart(
       _createSampleData(
@@ -70,7 +70,7 @@ class DashboardChart extends StatelessWidget {
 
 class GaugeSegment {
   final String segment;
-  final int size;
+  final double size;
   final charts.Color color;
 
   GaugeSegment(this.segment, this.size, this.color);

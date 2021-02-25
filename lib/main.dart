@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
           primaryColor: Color(0xff090723),
           accentColor: Colors.pink,
           scaffoldBackgroundColor: Color(0xff090723),
+          snackBarTheme: SnackBarThemeData(
+              backgroundColor: Color(0xff090723),
+              contentTextStyle: TextStyle(color: Colors.pink)),
         ),
       ),
     );

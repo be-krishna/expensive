@@ -19,7 +19,7 @@ class _AddExpenseState extends State<AddExpense> {
   String note;
   String dateTime;
   DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay selectedTime = TimeOfDay.fromDateTime(DateTime.now());
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
@@ -175,33 +175,35 @@ class _AddExpenseState extends State<AddExpense> {
                 ),
               ),
             ),
-            AddExpenseButton(
-              onTapFunction: () {
-                if (_formKey.currentState.validate()) {
-                  Provider.of<ExpenseData>(context, listen: false).addExpense(
-                    amount: amount,
-                    date: selectedDate,
-                    time: selectedTime,
-                    category: category,
-                    note: note,
-                  );
+            Builder(
+              builder: (context) => AddExpenseButton(
+                onTapFunction: () {
+                  if (_formKey.currentState.validate()) {
+                    Provider.of<ExpenseData>(context, listen: false).addExpense(
+                      amount: amount,
+                      date: selectedDate,
+                      time: selectedTime,
+                      category: category,
+                      note: note,
+                    );
 
-                  _dateController.clear();
-                  _timeController.clear();
-                  _amountController.clear();
-                  _noteController.clear();
+                    _dateController.clear();
+                    _timeController.clear();
+                    _amountController.clear();
+                    _noteController.clear();
 
-                  _autoValidate = false;
+                    _autoValidate = false;
 
-                  FocusScope.of(context).unfocus();
+                    FocusScope.of(context).unfocus();
 
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(content: Text('Task added')),
-                  );
-                } else {
-                  _autoValidate = true;
-                }
-              },
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('Task added')),
+                    );
+                  } else {
+                    _autoValidate = true;
+                  }
+                },
+              ),
             ),
           ],
         ),

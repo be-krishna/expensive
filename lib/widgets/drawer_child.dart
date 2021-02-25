@@ -91,11 +91,8 @@ class DrawerChild extends StatelessWidget {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
                                 value.clearTable();
-                                Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text("Database Cleared")),
-                                );
+                                Navigator.of(context).pop();
                               },
                               child: Text(
                                 "Yes",
