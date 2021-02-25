@@ -77,7 +77,7 @@ class Expense implements Comparable<Expense> {
     time = _stringToTime(map['time']);
     amount = map['amount'];
     category = getCategory(map['category']);
-    note = map['note'];
+    note = map['note'].toString();
   }
 
   String _timeToString(TimeOfDay timeOfDay) {
