@@ -138,6 +138,8 @@ class _AddExpenseState extends State<AddExpense> {
                           category = value;
                         });
                       },
+                      formValidator: (value) =>
+                          value == null ? 'Select Category' : null,
                     ),
                     TextFormField(
                       controller: _dateController,
