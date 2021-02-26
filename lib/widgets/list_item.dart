@@ -79,6 +79,7 @@ class ListItem extends StatelessWidget {
           title: Text(
             note,
             style: TextStyle(fontSize: 18, fontFamily: 'OpenSans'),
+            overflow: TextOverflow.ellipsis,
           ),
           subtitle:
               date != null ? Text('${DateFormat.yMMMMd().format(date)}') : null,
