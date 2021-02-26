@@ -1,4 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:intl/intl.dart';
 import '../models/expense_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class DashboardChart extends StatelessWidget {
         measureFn: (GaugeSegment segment, _) => segment.size,
         colorFn: (GaugeSegment segment, _) => segment.color,
         labelAccessorFn: (GaugeSegment segment, _) =>
-            '${segment.segment.substring(0, 1)}: ₹${segment.size}',
+            '${segment.segment.substring(0, 1)}: ₹${NumberFormat.compact().format(segment.size)}',
         data: data,
         outsideLabelStyleAccessorFn: (GaugeSegment segment, _) =>
             charts.TextStyleSpec(
@@ -59,7 +60,7 @@ class DashboardChart extends StatelessWidget {
         ),
         insideLabelStyleAccessorFn: (GaugeSegment segment, _) =>
             charts.TextStyleSpec(
-          color: charts.Color.white,
+          color: charts.Color.black,
           fontSize: 12,
           fontFamily: "OpenSans",
         ),

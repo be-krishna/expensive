@@ -1,4 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:intl/intl.dart';
 import '../models/expense.dart';
 import '../models/expense_data.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,8 @@ class StatsChart extends StatefulWidget {
         colorFn: (Category category, _) => category.color,
         data: data,
         // Set a label accessor to control the text of the arc label.
-        labelAccessorFn: (Category row, _) => '₹ ${row.amount}',
+        labelAccessorFn: (Category row, _) =>
+            '₹ ${NumberFormat.compact().format(row.amount)}',
         outsideLabelStyleAccessorFn: (Category row, _) => charts.TextStyleSpec(
           color: charts.Color.white,
           fontSize: 14,
