@@ -7,9 +7,11 @@ import '../models/expense_data.dart';
 import '../services/database_helper.dart';
 import '../widgets/add_expense_button.dart';
 import '../widgets/category_select.dart';
-import 'recent_expenses.dart';
+import '../widgets/show_dialog.dart' as dialog;
 
 class UpdateExpense extends StatefulWidget {
+  static const String routeName = '/updateExpense';
+
   final int id;
   final double amount;
   final String note;
@@ -259,6 +261,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
             ),
             Builder(
               builder: (context) => AddExpenseButton(
+                buttonIcon: Icons.update,
                 onTapFunction: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
@@ -277,7 +280,13 @@ class _UpdateExpenseState extends State<UpdateExpense> {
                     _autoValidate = false;
 
                     FocusScope.of(context).unfocus();
-                    showDialog(context);
+                    dialog
+                        .showDialog(
+                          context: context,
+                          iconData: Icons.update,
+                          helperText: "Updated",
+                        )
+                        .then((value) => Navigator.of(context).pop());
                   } else {
                     _autoValidate = true;
                   }
@@ -288,50 +297,5 @@ class _UpdateExpenseState extends State<UpdateExpense> {
         ),
       ),
     );
-  }
-
-  void showDialog(BuildContext context) {
-    showGeneralDialog(
-      barrierLabel: "Barrier",
-      barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.8),
-      transitionDuration: Duration(milliseconds: 300),
-      context: context,
-      pageBuilder: (context, __, ___) {
-        return Align(
-          alignment: Alignment.center,
-          child: Container(
-            height: 200,
-            child: Column(
-              children: [
-                Icon(
-                  Icons.update,
-                  size: 100,
-                ),
-                SizedBox(height: 10),
-                Expanded(
-                  child: Text(
-                    "Updated",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
-              ],
-            ),
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
-      },
-      transitionBuilder: (_, anim, __, child) {
-        return SlideTransition(
-          position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
-          child: child,
-        );
-      },
-    ).then((value) => Navigator.of(context)
-        .pop(MaterialPageRoute(builder: (context) => RecentExpense())));
   }
 }

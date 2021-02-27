@@ -1,3 +1,7 @@
+import 'package:expensive/screens/add_expense.dart';
+import 'package:expensive/screens/expense_history.dart';
+import 'package:expensive/screens/recent_expenses.dart';
+import 'package:expensive/screens/update_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +23,14 @@ class MyApp extends StatelessWidget {
       create: (context) => ExpenseData(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: InputPage(),
+        home: Dashboard(),
+        routes: {
+          Dashboard.routeName: (context) => Dashboard(),
+          ExpenseHistory.routeName: (context) => ExpenseHistory(),
+          RecentExpense.routeName: (context) => RecentExpense(),
+          UpdateExpense.routeName: (context) => UpdateExpense(),
+          AddExpense.routeName: (context) => AddExpense(),
+        },
         theme: ThemeData.dark().copyWith(
           primaryColor: Color(0xff090723),
           accentColor: Colors.pink,

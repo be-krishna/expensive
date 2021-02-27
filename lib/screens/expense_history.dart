@@ -7,6 +7,7 @@ import '../widgets/list_item.dart';
 import '../widgets/stats_chart.dart';
 
 class ExpenseHistory extends StatefulWidget {
+  static const String routeName = '/expenseHistory';
   @override
   _ExpenseHistoryState createState() => _ExpenseHistoryState();
 }

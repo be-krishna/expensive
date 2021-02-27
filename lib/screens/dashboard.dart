@@ -14,12 +14,13 @@ import 'recent_expenses.dart';
 
 const activeCardColor = Color(0xff090723);
 
-class InputPage extends StatefulWidget {
+class Dashboard extends StatefulWidget {
+  static const String routeName = '/inputPage';
   @override
-  _InputPageState createState() => _InputPageState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _InputPageState extends State<InputPage> {
+class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -69,10 +70,7 @@ class _InputPageState extends State<InputPage> {
                     child: ReusableCard(
                       color: activeCardColor,
                       onTapFunction: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RecentExpense()));
+                        Navigator.of(context).pushNamed(RecentExpense.routeName);
                       },
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -97,10 +95,7 @@ class _InputPageState extends State<InputPage> {
                     child: ReusableCard(
                       color: activeCardColor,
                       onTapFunction: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ExpenseHistory()));
+                        Navigator.of(context).pushNamed(ExpenseHistory.routeName);
                       },
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -166,8 +161,7 @@ class _InputPageState extends State<InputPage> {
         label: Text("New"),
         backgroundColor: Colors.pink,
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AddExpense()));
+          Navigator.of(context).pushNamed(AddExpense.routeName);
         },
       ),
     );

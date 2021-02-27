@@ -4,8 +4,10 @@ const bottomContainerHeight = 50.0;
 
 class AddExpenseButton extends StatelessWidget {
   final Function onTapFunction;
+  final IconData buttonIcon;
 
-  const AddExpenseButton({Key key, this.onTapFunction}) : super(key: key);
+  const AddExpenseButton({Key key, this.onTapFunction, this.buttonIcon})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,7 +24,7 @@ class AddExpenseButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.add,
+              buttonIcon ?? Icons.add,
               size: 28,
             ),
           ],

@@ -8,6 +8,7 @@ import '../widgets/no_expense_prompt.dart';
 import 'update_expense.dart';
 
 class RecentExpense extends StatefulWidget {
+  static const String routeName = '/recentExpense';
   @override
   _RecentExpenseState createState() => _RecentExpenseState();
 }

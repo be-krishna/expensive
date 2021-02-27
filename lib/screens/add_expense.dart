@@ -6,8 +6,10 @@ import '../models/expense.dart';
 import '../models/expense_data.dart';
 import '../widgets/add_expense_button.dart';
 import '../widgets/category_select.dart';
+import '../widgets/show_dialog.dart' as dialog;
 
 class AddExpense extends StatefulWidget {
+  static const String routeName = '/addExpense';
   @override
   _AddExpenseState createState() => _AddExpenseState();
 }
@@ -198,9 +200,16 @@ class _AddExpenseState extends State<AddExpense> {
 
                     FocusScope.of(context).unfocus();
 
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('Task added')),
-                    );
+                    // Scaffold.of(context).showSnackBar(
+                    //   SnackBar(content: Text('Task added')),
+                    // );
+                    dialog
+                        .showDialog(
+                          context: context,
+                          iconData: Icons.add,
+                          helperText: "Added",
+                        )
+                        .then((value) => Navigator.of(context).pop());
                   } else {
                     _autoValidate = true;
                   }
