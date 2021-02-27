@@ -1,4 +1,3 @@
-import 'package:expensive/screens/update_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,6 +5,7 @@ import '../models/expense.dart';
 import '../models/expense_data.dart';
 import '../widgets/list_item.dart';
 import '../widgets/no_expense_prompt.dart';
+import 'update_expense.dart';
 
 class RecentExpense extends StatefulWidget {
   @override

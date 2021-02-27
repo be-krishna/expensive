@@ -1,13 +1,13 @@
-import 'package:expensive/screens/recent_expenses.dart';
-import 'package:expensive/services/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../models/expense.dart';
 import '../models/expense_data.dart';
+import '../services/database_helper.dart';
 import '../widgets/add_expense_button.dart';
 import '../widgets/category_select.dart';
+import 'recent_expenses.dart';
 
 class UpdateExpense extends StatefulWidget {
   final int id;
@@ -36,8 +36,8 @@ class _UpdateExpenseState extends State<UpdateExpense> {
   double amount;
   String note = "note";
   String dateTime;
-  DateTime selectedDate ;
-  TimeOfDay selectedTime ;
+  DateTime selectedDate;
+  TimeOfDay selectedTime;
 
   TextEditingController _dateController;
   TextEditingController _timeController;
@@ -60,6 +60,16 @@ class _UpdateExpenseState extends State<UpdateExpense> {
     _categoryController = TextEditingController();
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _noteController.dispose();
+    _dateController.dispose();
+    _timeController.dispose();
+    _categoryController.dispose();
+    super.dispose();
   }
 
   void _selectDateCopy() async {
