@@ -36,8 +36,8 @@ class _UpdateExpenseState extends State<UpdateExpense> {
   double amount;
   String note = "note";
   String dateTime;
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.fromDateTime(DateTime.now());
+  DateTime selectedDate ;
+  TimeOfDay selectedTime ;
 
   TextEditingController _dateController;
   TextEditingController _timeController;
