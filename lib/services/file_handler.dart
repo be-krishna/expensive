@@ -40,11 +40,10 @@ class FileHandler {
   static Future<File> writeToFile(String data) async {
     if (await Permission.storage.request().isGranted) {
       final file = await _localFile;
+      file.existsSync();
       return file.writeAsString(data);
     } else {
       return null;
     }
-
-    // Write the file.
   }
 }
