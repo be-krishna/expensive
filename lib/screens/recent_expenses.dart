@@ -1,3 +1,4 @@
+import 'package:expensive/screens/update_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,16 +50,38 @@ class _RecentExpenseState extends State<RecentExpense> {
                           category: entry.category,
                           time: entry.time,
                         ),
-                        onDismissed: (DismissDirection direction) =>
-                            _data.removeDataFromList(entry.id),
+                        onDismissed: (DismissDirection direction) {
+                          if (direction == DismissDirection.endToStart) {
+                            _data.deleteExpense(entry.id);
+                          } else {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => UpdateExpense(
+                                  id: entry.id,
+                                  amount: entry.amount,
+                                  note: entry.note,
+                                  date: entry.date,
+                                  time: entry.time,
+                                  category: entry.category,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        background: slideRightBackground(),
+                        secondaryBackground: slideLeftBackground(),
                         confirmDismiss: (DismissDirection direction) async {
                           return await showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text("Confirm"),
-                                content: const Text(
-                                    "Are you sure you wish to delete this item?"),
+                                content: direction ==
+                                        DismissDirection.endToStart
+                                    ? const Text(
+                                        "Are you sure you wish to delete this item?")
+                                    : const Text("Update item?"),
                                 actions: <Widget>[
                                   FlatButton(
                                     onPressed: () =>
@@ -144,4 +167,62 @@ class _RecentExpenseState extends State<RecentExpense> {
             ),
     );
   }
+}
+
+Widget slideRightBackground() {
+  return Container(
+    color: Colors.green,
+    child: Align(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
+            width: 20,
+          ),
+          Icon(
+            Icons.edit,
+            color: Colors.white,
+          ),
+          Text(
+            " Edit",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.left,
+          ),
+        ],
+      ),
+      alignment: Alignment.centerLeft,
+    ),
+  );
+}
+
+Widget slideLeftBackground() {
+  return Container(
+    color: Colors.red,
+    child: Align(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+          Text(
+            " Delete",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.right,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
+      alignment: Alignment.centerRight,
+    ),
+  );
 }

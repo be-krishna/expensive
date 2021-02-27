@@ -6,13 +6,17 @@ class ChooseCategory extends StatefulWidget {
   final Function onTapFunction;
   final TextEditingController controller;
   final Function onChangeFunction;
+  final Function onSavedFunction;
   final Function formValidator;
+  final ExpenseCategory selectedCategory;
   ChooseCategory(
       {Key key,
       this.onTapFunction,
       this.controller,
       this.onChangeFunction,
-      this.formValidator})
+      this.onSavedFunction,
+      this.formValidator,
+      this.selectedCategory})
       : super(key: key);
 
   @override
@@ -49,9 +53,12 @@ class _ChooseCategoryState extends State<ChooseCategory> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<ExpenseCategory>(
-      value: selectedCategory,
+      value: widget.selectedCategory != null
+          ? widget.selectedCategory
+          : selectedCategory,
       items: getDropdownItems(),
       onChanged: widget.onChangeFunction,
+      onSaved: widget.onSavedFunction,
       dropdownColor: Color(0xff090723),
       validator: widget.formValidator,
       decoration: InputDecoration(

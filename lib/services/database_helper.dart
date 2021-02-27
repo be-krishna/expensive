@@ -80,4 +80,17 @@ class DatabaseHelper {
     Database db = await database;
     return db.rawDelete("DELETE FROM ${Expense.tblExpense}");
   }
+
+  Future<Expense> getExpenseById(int id) async {
+    Database db = await database;
+    List<Map> expenses = await db.query(
+      Expense.tblExpense,
+      where: '${Expense.colId}=?',
+      whereArgs: [id],
+    );
+    var expense = expenses.length > 1
+        ? []
+        : expenses.map((e) => Expense.fromMap(e)).toList();
+    return expense.first;
+  }
 }

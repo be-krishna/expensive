@@ -98,11 +98,6 @@ class ExpenseData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeDataFromList(int id) async {
-    await _dbHelper.deleteExpense(id);
-    _refreshExpenseList();
-  }
-
   _refreshExpenseList() async {
     _expenses = await _dbHelper.fetchExpenses();
     notifyListeners();
@@ -126,6 +121,16 @@ class ExpenseData extends ChangeNotifier {
     _dbHelper.insertExpense(newExpense);
     _refreshExpenseList();
     notifyListeners();
+  }
+
+  void deleteExpense(int id) async {
+    await _dbHelper.deleteExpense(id);
+    _refreshExpenseList();
+  }
+
+  void updatExpense(Expense expense) async {
+    await _dbHelper.updateExpense(expense);
+    _refreshExpenseList();
   }
 
   List<Expense> sortedExpenses({List<Expense> customList}) {
