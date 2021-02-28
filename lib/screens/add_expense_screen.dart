@@ -4,80 +4,34 @@ import 'package:provider/provider.dart';
 
 import '../models/expense.dart';
 import '../models/expense_data.dart';
-import '../services/database_helper.dart';
-import '../widgets/add_expense_button.dart';
-import '../widgets/category_select.dart';
-import '../widgets/show_dialog.dart' as dialog;
+import '../widgets/widget_submit_button.dart';
+import '../widgets/widget_category_select.dart';
+import '../widgets/widget_show_dialog.dart' as dialog;
 
-class UpdateExpense extends StatefulWidget {
-  static const String routeName = '/updateExpense';
-
-  final int id;
-  final double amount;
-  final String note;
-  final DateTime date;
-  final TimeOfDay time;
-  final ExpenseCategory category;
-
-  UpdateExpense({
-    Key key,
-    this.id,
-    this.amount,
-    this.note,
-    this.date,
-    this.time,
-    this.category,
-  }) : super(key: key);
+class AddExpense extends StatefulWidget {
+  static const String routeName = '/addExpense';
   @override
-  _UpdateExpenseState createState() => _UpdateExpenseState();
+  _AddExpenseState createState() => _AddExpenseState();
 }
 
-class _UpdateExpenseState extends State<UpdateExpense> {
+class _AddExpenseState extends State<AddExpense> {
   bool _autoValidate = false;
   ExpenseCategory category;
   double amount;
-  String note = "note";
+  String note;
   String dateTime;
-  DateTime selectedDate;
-  TimeOfDay selectedTime;
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.fromDateTime(DateTime.now());
 
-  TextEditingController _dateController;
-  TextEditingController _timeController;
-  TextEditingController _categoryController;
-  TextEditingController _amountController;
-  TextEditingController _noteController;
-
-  void getExpense() async {
-    var db = DatabaseHelper.instance;
-    Expense expense = await db.getExpenseById(widget.id);
-    print(expense);
-  }
-
-  @override
-  void initState() {
-    _amountController = TextEditingController(text: widget.amount.toString());
-    _noteController = TextEditingController(text: widget.note);
-    _dateController = TextEditingController();
-    _timeController = TextEditingController();
-    _categoryController = TextEditingController();
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _amountController.dispose();
-    _noteController.dispose();
-    _dateController.dispose();
-    _timeController.dispose();
-    _categoryController.dispose();
-    super.dispose();
-  }
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
+  TextEditingController _amountController = TextEditingController();
+  TextEditingController _noteController = TextEditingController();
 
   void _selectDateCopy() async {
     final DateTime newDate = await showDatePicker(
       context: context,
-      initialDate: widget.date,
+      initialDate: selectedDate,
       firstDate: DateTime(2017, 1),
       lastDate: DateTime.now(),
       helpText: 'Select a date',
@@ -93,7 +47,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
   void _selectTimeCopy() async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
-      initialTime: widget.time,
+      initialTime: selectedTime,
     );
     if (newTime != null) {
       setState(() {
@@ -145,11 +99,6 @@ class _UpdateExpenseState extends State<UpdateExpense> {
                         icon: Icon(Icons.monetization_on_sharp),
                         labelText: "Amount",
                       ),
-                      onSaved: (value) {
-                        setState(() {
-                          amount = double.parse(value) ?? widget.amount;
-                        });
-                      },
                       onChanged: (value) {
                         setState(() {
                           amount = double.parse(value);
@@ -179,11 +128,6 @@ class _UpdateExpenseState extends State<UpdateExpense> {
                         }
                         return null;
                       },
-                      onSaved: (value) {
-                        setState(() {
-                          note = value.toString() ?? widget.note;
-                        });
-                      },
                       onChanged: (value) {
                         setState(() {
                           note = value.toString();
@@ -191,29 +135,16 @@ class _UpdateExpenseState extends State<UpdateExpense> {
                       },
                     ),
                     ChooseCategory(
-                      controller: _categoryController,
-                      selectedCategory: widget.category,
-                      onChangeFunction: (ExpenseCategory value) {
+                      onChangeFunction: (value) {
                         setState(() {
                           category = value;
                         });
                       },
-                      onSavedFunction: (ExpenseCategory value) {
-                        setState(() {
-                          category = category ?? widget.category;
-                        });
-                      },
-                      formValidator: (ExpenseCategory value) {
-                        if (value.index.isNaN) {
-                          return 'Select Category';
-                        } else {
-                          return null;
-                        }
-                      },
+                      formValidator: (value) =>
+                          value == null ? 'Select Category' : null,
                     ),
                     TextFormField(
-                      controller: _dateController
-                        ..text = DateFormat.yMMMd().format(widget.date),
+                      controller: _dateController,
                       decoration: _inputDecoration(
                         icon: Icon(Icons.calendar_today),
                         labelText: "Date",
@@ -225,17 +156,11 @@ class _UpdateExpenseState extends State<UpdateExpense> {
                         }
                         return null;
                       },
-                      onSaved: (value) {
-                        setState(() {
-                          selectedDate = selectedDate ?? widget.date;
-                        });
-                      },
                       onTap: () => _selectDateCopy(),
                       readOnly: true,
                     ),
                     TextFormField(
-                      controller: _timeController
-                        ..text = widget.time.format(context),
+                      controller: _timeController,
                       decoration: _inputDecoration(
                         icon: Icon(Icons.alarm),
                         labelText: "Time",
@@ -247,11 +172,6 @@ class _UpdateExpenseState extends State<UpdateExpense> {
                         }
                         return null;
                       },
-                      onSaved: (value) {
-                        setState(() {
-                          selectedTime = selectedTime ?? widget.time;
-                        });
-                      },
                       onTap: () => _selectTimeCopy(),
                       readOnly: true,
                     ),
@@ -260,31 +180,34 @@ class _UpdateExpenseState extends State<UpdateExpense> {
               ),
             ),
             Builder(
-              builder: (context) => AddExpenseButton(
-                buttonIcon: Icons.update,
+              builder: (context) => SubmitButton(
                 onTapFunction: () {
                   if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
-                    Provider.of<ExpenseData>(context, listen: false)
-                        .updatExpense(
-                      Expense(
-                        id: widget.id,
-                        amount: amount,
-                        date: selectedDate,
-                        time: selectedTime,
-                        category: category,
-                        note: note,
-                      ),
+                    Provider.of<ExpenseData>(context, listen: false).addExpense(
+                      amount: amount,
+                      date: selectedDate,
+                      time: selectedTime,
+                      category: category,
+                      note: note,
                     );
+
+                    _dateController.clear();
+                    _timeController.clear();
+                    _amountController.clear();
+                    _noteController.clear();
 
                     _autoValidate = false;
 
                     FocusScope.of(context).unfocus();
+
+                    // Scaffold.of(context).showSnackBar(
+                    //   SnackBar(content: Text('Task added')),
+                    // );
                     dialog
                         .showDialog(
                           context: context,
-                          iconData: Icons.update,
-                          helperText: "Updated",
+                          iconData: Icons.add,
+                          helperText: "Added",
                         )
                         .then((value) => Navigator.of(context).pop());
                   } else {

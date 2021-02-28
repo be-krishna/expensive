@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../models/expense.dart';
 import '../models/expense_data.dart';
-import '../widgets/list_item.dart';
-import '../widgets/stats_chart.dart';
+import '../widgets/widget_list_item.dart';
+import '../widgets/widget_stats_chart.dart';
 
 class ExpenseHistory extends StatefulWidget {
   static const String routeName = '/expenseHistory';

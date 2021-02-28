@@ -4,13 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../models/expense_data.dart';
-import '../widgets/dashboard_chart.dart';
-import '../widgets/drawer_child.dart';
-import '../widgets/latest_expense.dart';
-import '../widgets/reusable_card.dart';
-import 'add_expense.dart';
-import 'expense_history.dart';
-import 'recent_expenses.dart';
+import '../widgets/widget_dashboard_chart.dart';
+import '../widgets/widget_drawer_child.dart';
+import '../widgets/widget_latest_expense.dart';
+import '../widgets/widget_reusable_card.dart';
+import 'add_expense_screen.dart';
+import 'expense_history_screen.dart';
+import 'recent_expenses_screen.dart';
 
 const activeCardColor = Color(0xff090723);
 

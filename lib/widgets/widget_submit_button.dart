@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 const bottomContainerHeight = 50.0;
 
-class AddExpenseButton extends StatelessWidget {
+class SubmitButton extends StatelessWidget {
   final Function onTapFunction;
   final IconData buttonIcon;
 
-  const AddExpenseButton({Key key, this.onTapFunction, this.buttonIcon})
+  const SubmitButton({Key key, this.onTapFunction, this.buttonIcon})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

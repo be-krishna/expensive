@@ -1,13 +1,13 @@
-import 'package:expensive/screens/add_expense.dart';
-import 'package:expensive/screens/expense_history.dart';
-import 'package:expensive/screens/recent_expenses.dart';
-import 'package:expensive/screens/update_expense.dart';
+import 'package:expensive/screens/add_expense_screen.dart';
+import 'package:expensive/screens/expense_history_screen.dart';
+import 'package:expensive/screens/recent_expenses_screen.dart';
+import 'package:expensive/screens/update_expense_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'models/expense_data.dart';
-import 'screens/dashboard.dart';
+import 'screens/dashboard_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

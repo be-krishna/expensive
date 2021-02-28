@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../models/expense.dart';
 import '../models/expense_data.dart';
-import '../widgets/list_item.dart';
-import '../widgets/no_expense_prompt.dart';
-import 'update_expense.dart';
+import '../widgets/widget_list_item.dart';
+import '../widgets/widget_no_expense_prompt.dart';
+import 'update_expense_screen.dart';
 
 class RecentExpense extends StatefulWidget {
   static const String routeName = '/recentExpense';
