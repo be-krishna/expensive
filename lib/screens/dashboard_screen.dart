@@ -70,7 +70,8 @@ class _DashboardState extends State<Dashboard> {
                     child: ReusableCard(
                       color: activeCardColor,
                       onTapFunction: () {
-                        Navigator.of(context).pushNamed(RecentExpense.routeName);
+                        Navigator.of(context)
+                            .pushNamed(RecentExpense.routeName);
                       },
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +96,8 @@ class _DashboardState extends State<Dashboard> {
                     child: ReusableCard(
                       color: activeCardColor,
                       onTapFunction: () {
-                        Navigator.of(context).pushNamed(ExpenseHistory.routeName);
+                        Navigator.of(context)
+                            .pushNamed(ExpenseHistory.routeName);
                       },
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -67,10 +67,6 @@ class DrawerChild extends StatelessWidget {
                       var message = await value.exportToJson();
                       message = message.split("/").last;
                       Navigator.of(context).pop();
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (context) => ConfirmDialog(value: value),
-                      // );
                       Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text("$message saved to Downloads folder")));
                     },
@@ -89,8 +85,39 @@ class DrawerChild extends StatelessWidget {
                       Navigator.of(context).pop();
                       showDialog(
                         context: context,
-                        builder: (context) =>
-                            ConfirmDialog(onPressed: () => value.clearTable()),
+                        builder: (context) => AlertDialog(
+                          content: Text("Are you sure?"),
+                          title: Text("Clear Database"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                value.clearTable();
+                                Scaffold.of(context).showSnackBar(
+                                  SnackBar(content: Text("Database Cleared")),
+                                );
+                              },
+                              child: Text(
+                                "Yes",
+                                style: TextStyle(
+                                  color: Colors.pink,
+                                  fontFamily: "OpenSans",
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Text(
+                                "No",
+                                style: TextStyle(
+                                  color: Colors.pink,
+                                  fontFamily: "OpenSans",
+                                ),
+                              ),
+                            ),
+                          ],
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
                       );
                     },
                   ),
@@ -104,45 +131,6 @@ class DrawerChild extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ConfirmDialog extends StatelessWidget {
-  final Function onPressed;
-  const ConfirmDialog({
-    Key key,
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Text("Are you sure?"),
-      title: Text("Clear Database"),
-      actions: [
-        TextButton(
-          onPressed: onPressed,
-          child: Text(
-            "Yes",
-            style: TextStyle(
-              color: Colors.pink,
-              fontFamily: "OpenSans",
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(
-            "No",
-            style: TextStyle(
-              color: Colors.pink,
-              fontFamily: "OpenSans",
-            ),
-          ),
-        ),
-      ],
-      backgroundColor: Theme.of(context).primaryColor,
     );
   }
 }
