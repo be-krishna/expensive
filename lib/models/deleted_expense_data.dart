@@ -1,4 +1,3 @@
-import 'package:expensive/models/expense_data.dart';
 import 'package:flutter/foundation.dart';
 
 import '../services/database_helper.dart';
@@ -40,6 +39,8 @@ class DeletedExpenseData extends ChangeNotifier {
   void restoreExpense(Expense expense) async {
     _dbHelper.insertExpense(expense);
     removeExpense(expense.id);
+    refreshExpenseList();
+    notifyListeners();
   }
 
   void addExpense(Expense expense) {
@@ -53,5 +54,6 @@ class DeletedExpenseData extends ChangeNotifier {
     await _dbHelper.deleteExpense(id,
         tableName: DatabaseHelper.deletedExpenseTable);
     refreshExpenseList();
+    notifyListeners();
   }
 }

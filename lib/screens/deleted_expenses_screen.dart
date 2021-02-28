@@ -1,3 +1,4 @@
+import 'package:expensive/widgets/widget_no_expense_prompt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,93 +27,97 @@ class _DeletedExpenseState extends State<DeletedExpense> {
         centerTitle: true,
       ),
       body: Consumer<DeletedExpenseData>(
-        builder: (context, _data, _) => Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                itemCount: _expenses == null
-                    ? _data.deletedExpense.length
-                    : _expenses.length,
-                itemBuilder: (context, index) {
-                  var temp = _data.deletedExpense;
-                  var entry = temp[index];
-                  return Dismissible(
-                    key: Key(entry.id.toString()),
-                    child: ListItem(
-                      amount: entry.amount,
-                      note: entry.note,
-                      date: entry.date,
-                      category: entry.category,
-                      time: entry.time,
+        builder: (context, _data, _) => _data.deletedExpense.isEmpty
+            ? NoExpensePrompt()
+            : Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      itemCount: _expenses == null
+                          ? _data.deletedExpense.length
+                          : _expenses.length,
+                      itemBuilder: (context, index) {
+                        var temp = _data.deletedExpense;
+                        var entry = temp[index];
+                        return Dismissible(
+                          key: Key(entry.id.toString()),
+                          child: ListItem(
+                            amount: entry.amount,
+                            note: entry.note,
+                            date: entry.date,
+                            category: entry.category,
+                            time: entry.time,
+                          ),
+                          onDismissed: (DismissDirection direction) {
+                            if (direction == DismissDirection.endToStart) {
+                              _data.removeExpense(entry.id);
+                            } else {
+                              _data.restoreExpense(Expense(
+                                id: entry.id,
+                                amount: entry.amount,
+                                note: entry.note,
+                                date: entry.date,
+                                time: entry.time,
+                                category: entry.category,
+                              ));
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          background: sliderBackground(
+                            context: context,
+                            icon: Icons.restore,
+                            iconLabel: "Restore",
+                          ),
+                          secondaryBackground: sliderBackground(
+                            context: context,
+                            icon: Icons.delete,
+                            iconLabel: "Delete",
+                            slideRight: false,
+                          ),
+                          confirmDismiss: (DismissDirection direction) async {
+                            return await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Confirm"),
+                                  content: direction ==
+                                          DismissDirection.endToStart
+                                      ? const Text(
+                                          "Are you sure you wish to delete this item?")
+                                      : const Text("Update item?"),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(true),
+                                      child: const Text(
+                                        "Yes",
+                                        style: TextStyle(color: Colors.pink),
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(false),
+                                      child: const Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                          color: Colors.pink,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
                     ),
-                    onDismissed: (DismissDirection direction) {
-                      if (direction == DismissDirection.endToStart) {
-                        _data.removeExpense(entry.id);
-                      } else {
-                        _data.restoreExpense(Expense(
-                          id: entry.id,
-                          amount: entry.amount,
-                          note: entry.note,
-                          date: entry.date,
-                          time: entry.time,
-                          category: entry.category,
-                        ));
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    background: sliderBackground(
-                      context: context,
-                      icon: Icons.restore,
-                      iconLabel: "Restore",
-                    ),
-                    secondaryBackground: sliderBackground(
-                      context: context,
-                      icon: Icons.delete,
-                      iconLabel: "Delete",
-                      slideRight: false,
-                    ),
-                    confirmDismiss: (DismissDirection direction) async {
-                      return await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("Confirm"),
-                            content: direction == DismissDirection.endToStart
-                                ? const Text(
-                                    "Are you sure you wish to delete this item?")
-                                : const Text("Update item?"),
-                            actions: <Widget>[
-                              FlatButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
-                                child: const Text(
-                                  "Yes",
-                                  style: TextStyle(color: Colors.pink),
-                                ),
-                              ),
-                              FlatButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(false),
-                                child: const Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                    color: Colors.pink,
-                                  ),
-                                ),
-                              ),
-                            ],
-                            backgroundColor: Theme.of(context).primaryColor,
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

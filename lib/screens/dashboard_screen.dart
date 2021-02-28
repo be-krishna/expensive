@@ -24,6 +24,7 @@ class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    ExpenseData().refreshList;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
