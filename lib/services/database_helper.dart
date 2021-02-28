@@ -7,6 +7,8 @@ import 'package:sqflite/sqflite.dart';
 import '../models/expense.dart';
 
 class DatabaseHelper {
+  static const deletedExpenseTable = "deletedExpenseTable";
+
   static const _databaseName = 'ExpenseDatabase.db';
   static const _databaseVersion = 1;
 
@@ -42,11 +44,24 @@ class DatabaseHelper {
       ${Expense.colCat} INTEGER NOT NULL
     )
     ''');
+    await db.execute('''
+    CREATE TABLE $deletedExpenseTable(
+      ${Expense.colId} INTEGER PRIMARY KEY AUTOINCREMENT,
+      ${Expense.colAmt} REAL NOT NULL,
+      ${Expense.colDate} STRING NOT NULL,
+      ${Expense.colTime} STRING NOT NULL,
+      ${Expense.colNote} STRING NOT NULL,
+      ${Expense.colCat} INTEGER NOT NULL
+    )
+    ''');
   }
 
-  Future<int> insertExpense(Expense expense) async {
+  Future<int> insertExpense(
+    Expense expense, {
+    String tableName = Expense.tblExpense,
+  }) async {
     Database db = await database;
-    return await db.insert(Expense.tblExpense, expense.toMap());
+    return await db.insert(tableName, expense.toMap());
   }
 
   Future<int> updateExpense(Expense expense) async {
@@ -59,32 +74,40 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> deleteExpense(int id) async {
+  Future<int> deleteExpense(
+    int id, {
+    String tableName = Expense.tblExpense,
+  }) async {
     Database db = await database;
     return await db.delete(
-      Expense.tblExpense,
+      tableName,
       where: '${Expense.colId}=?',
       whereArgs: [id],
     );
   }
 
-  Future<List<Expense>> fetchExpenses() async {
+  Future<List<Expense>> fetchExpenses({
+    String tableName = Expense.tblExpense,
+  }) async {
     Database db = await database;
-    List<Map> expenses = await db.query(Expense.tblExpense);
+    List<Map> expenses = await db.query(tableName);
     return expenses.length == 0
         ? []
         : expenses.map((e) => Expense.fromMap(e)).toList();
   }
 
-  Future<int> cleanTable() async {
+  Future<int> cleanTable({String tableName = Expense.tblExpense}) async {
     Database db = await database;
-    return db.rawDelete("DELETE FROM ${Expense.tblExpense}");
+    return db.rawDelete("DELETE FROM $tableName");
   }
 
-  Future<Expense> getExpenseById(int id) async {
+  Future<Expense> getExpenseById(
+    int id, {
+    String tableName = Expense.tblExpense,
+  }) async {
     Database db = await database;
     List<Map> expenses = await db.query(
-      Expense.tblExpense,
+      tableName,
       where: '${Expense.colId}=?',
       whereArgs: [id],
     );

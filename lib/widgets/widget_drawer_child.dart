@@ -1,3 +1,4 @@
+import 'package:expensive/screens/deleted_expenses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -80,12 +81,24 @@ class DrawerChild extends StatelessWidget {
                       'Clear DB',
                       style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
                     ),
-                    trailing: Icon(Icons.delete),
+                    trailing: Icon(Icons.delete_forever),
                     onTap: () {
                       Navigator.of(context).pop();
                       buildShowDialog(context, value);
                     },
                   ),
+                ),
+                ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  title: Text(
+                    'Deleted',
+                    style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
+                  ),
+                  trailing: Icon(Icons.delete),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(DeletedExpense.routeName);
+                  },
                 ),
               ],
             ),

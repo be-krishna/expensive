@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:expensive/models/deleted_expense_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +12,10 @@ import 'expense.dart';
 
 class ExpenseData extends ChangeNotifier {
   DatabaseHelper _dbHelper;
+  DeletedExpenseData deletedExpenseData;
   ExpenseData() {
     _dbHelper = DatabaseHelper.instance;
+    deletedExpenseData = DeletedExpenseData();
     _firstRun();
     addDataToList();
     notifyListeners();
@@ -35,6 +38,8 @@ class ExpenseData extends ChangeNotifier {
   double get totalOfYear => _amountOfYear();
   double get totalOfDay => _amountOfDay();
   Expense get latestExpense => sortedExpenses().first;
+
+  void get refreshList => _refreshExpenseList();
 
   Future<String> getJson() {
     return rootBundle.loadString('assets/expense.json');
@@ -98,7 +103,7 @@ class ExpenseData extends ChangeNotifier {
     notifyListeners();
   }
 
-  _refreshExpenseList() async {
+  void _refreshExpenseList() async {
     _expenses = await _dbHelper.fetchExpenses();
     notifyListeners();
   }
@@ -124,6 +129,8 @@ class ExpenseData extends ChangeNotifier {
   }
 
   void deleteExpense(int id) async {
+    Expense deletedExpense = await _dbHelper.getExpenseById(id);
+    deletedExpenseData.addExpense(deletedExpense);
     await _dbHelper.deleteExpense(id);
     _refreshExpenseList();
   }
