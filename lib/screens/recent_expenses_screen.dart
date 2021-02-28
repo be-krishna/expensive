@@ -70,8 +70,17 @@ class _RecentExpenseState extends State<RecentExpense> {
                             );
                           }
                         },
-                        background: slideRightBackground(),
-                        secondaryBackground: slideLeftBackground(),
+                        background: sliderBackground(
+                          context: context,
+                          icon: Icons.edit,
+                          iconLabel: "Edit",
+                        ),
+                        secondaryBackground: sliderBackground(
+                          context: context,
+                          icon: Icons.delete,
+                          iconLabel: "Delete",
+                          slideRight: false,
+                        ),
                         confirmDismiss: (DismissDirection direction) async {
                           return await showDialog(
                             context: context,
@@ -170,60 +179,42 @@ class _RecentExpenseState extends State<RecentExpense> {
   }
 }
 
-Widget slideRightBackground() {
+Widget sliderBackground(
+    {BuildContext context,
+    IconData icon,
+    String iconLabel,
+    bool slideRight = true}) {
   return Container(
-    color: Colors.green,
+    decoration: BoxDecoration(
+      color: Theme.of(context).primaryColor,
+      borderRadius: BorderRadius.circular(10),
+    ),
     child: Align(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment:
+            slideRight ? MainAxisAlignment.start : MainAxisAlignment.end,
         children: <Widget>[
           SizedBox(
             width: 20,
           ),
           Icon(
-            Icons.edit,
-            color: Colors.white,
+            icon,
+            color: Theme.of(context).accentColor,
+          ),
+          SizedBox(
+            width: 5,
           ),
           Text(
-            " Edit",
+            iconLabel,
             style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
+                color: Theme.of(context).accentColor,
+                fontWeight: FontWeight.bold,
+                fontFamily: "OpenSans"),
             textAlign: TextAlign.left,
           ),
         ],
       ),
-      alignment: Alignment.centerLeft,
-    ),
-  );
-}
-
-Widget slideLeftBackground() {
-  return Container(
-    color: Colors.red,
-    child: Align(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-          Text(
-            " Delete",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.right,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-        ],
-      ),
-      alignment: Alignment.centerRight,
+      alignment: slideRight ? Alignment.centerLeft : Alignment.centerRight,
     ),
   );
 }
