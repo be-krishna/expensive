@@ -30,12 +30,22 @@ class _AddExpenseState extends State<AddExpense> {
 
   void _selectDateCopy() async {
     final DateTime newDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2017, 1),
-      lastDate: DateTime.now(),
-      helpText: 'Select a date',
-    );
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2017, 1),
+        lastDate: DateTime.now(),
+        helpText: 'Select a date',
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark().copyWith(
+                primary: Theme.of(context).accentColor,
+                surface: Theme.of(context).primaryColor,
+              ),
+            ),
+            child: child,
+          );
+        });
     if (newDate != null) {
       setState(() {
         selectedDate = newDate;
@@ -46,9 +56,19 @@ class _AddExpenseState extends State<AddExpense> {
 
   void _selectTimeCopy() async {
     final TimeOfDay newTime = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
+        context: context,
+        initialTime: selectedTime,
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark().copyWith(
+                primary: Theme.of(context).accentColor,
+                surface: Theme.of(context).primaryColor,
+              ),
+            ),
+            child: child,
+          );
+        });
     if (newTime != null) {
       setState(() {
         selectedTime = newTime;

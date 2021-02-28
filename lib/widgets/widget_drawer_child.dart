@@ -83,42 +83,7 @@ class DrawerChild extends StatelessWidget {
                     trailing: Icon(Icons.delete),
                     onTap: () {
                       Navigator.of(context).pop();
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Text("Are you sure?"),
-                          title: Text("Clear Database"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                value.clearTable();
-                                Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text("Database Cleared")),
-                                );
-                              },
-                              child: Text(
-                                "Yes",
-                                style: TextStyle(
-                                  color: Colors.pink,
-                                  fontFamily: "OpenSans",
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: Text(
-                                "No",
-                                style: TextStyle(
-                                  color: Colors.pink,
-                                  fontFamily: "OpenSans",
-                                ),
-                              ),
-                            ),
-                          ],
-                          backgroundColor: Theme.of(context).primaryColor,
-                        ),
-                      );
+                      buildShowDialog(context, value);
                     },
                   ),
                 ),
@@ -130,6 +95,42 @@ class DrawerChild extends StatelessWidget {
             style: TextStyle(fontFamily: "Satisfy", fontSize: 16),
           ),
         ],
+      ),
+    );
+  }
+
+  Future buildShowDialog(BuildContext context, ExpenseData value) {
+    return showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        content: Text("Are you sure?"),
+        title: Text("Clear Database"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              value.clearTable();
+              Navigator.of(dialogContext).pop();
+            },
+            child: Text(
+              "Yes",
+              style: TextStyle(
+                color: Colors.pink,
+                fontFamily: "OpenSans",
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              "No",
+              style: TextStyle(
+                color: Colors.pink,
+                fontFamily: "OpenSans",
+              ),
+            ),
+          ),
+        ],
+        backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }

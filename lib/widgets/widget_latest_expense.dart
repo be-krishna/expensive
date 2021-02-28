@@ -20,7 +20,7 @@ class LatestExpense extends StatelessWidget {
               note: value.latestExpense.note ?? "Loading ...",
               time: value.latestExpense.time ??
                   TimeOfDay.fromDateTime(DateTime.now()),
-              onTapCallback: () {},
+              // onTapCallback: () {},
             ),
           );
         } catch (e) {
