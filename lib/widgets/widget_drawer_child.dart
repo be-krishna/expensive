@@ -39,8 +39,7 @@ class DrawerChild extends StatelessWidget {
                 ),
                 Consumer<ExpenseData>(
                   builder: (context, value, _) => ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     title: Text(
                       'Import',
                       style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
@@ -49,34 +48,31 @@ class DrawerChild extends StatelessWidget {
                     onTap: () async {
                       bool imported = await value.importFromJson();
                       Navigator.of(context).pop();
-                      Scaffold.of(context).showSnackBar(SnackBar(
-                          content:
-                              imported ? Text("Imported") : Text("Error")));
+                      Scaffold.of(context).showSnackBar(
+                          SnackBar(content: imported ? Text("Imported") : Text("Error")));
                     },
                   ),
                 ),
                 Consumer<ExpenseData>(
                   builder: (context, value, _) => ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     title: Text(
                       'Export',
                       style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
                     ),
                     trailing: Icon(Icons.file_upload),
                     onTap: () async {
-                      var message = await value.exportToJson();
-                      message = message.split("/").last;
+                      var message;
+                      bool success = await value.exportToJson();
+                      success ? message = "Exported to Downloads" : message = "Export Error";
                       Navigator.of(context).pop();
-                      Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text("$message saved to Downloads folder")));
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
                     },
                   ),
                 ),
                 Consumer<ExpenseData>(
                   builder: (context, value, _) => ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     title: Text(
                       'Clear DB',
                       style: TextStyle(fontFamily: "OpenSans", fontSize: 16),
@@ -89,8 +85,7 @@ class DrawerChild extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   title: Text(
                     'Deleted',
                     style: TextStyle(fontFamily: "OpenSans", fontSize: 16),

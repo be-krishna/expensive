@@ -80,15 +80,15 @@ class ExpenseData extends ChangeNotifier {
     }
   }
 
-  Future<String> exportToJson() async {
+  Future<bool> exportToJson() async {
     try {
       List<Expense> exp = await _dbHelper.fetchExpenses();
       String jsonData = jsonEncode(exp);
-      File file = await FileHandler.writeToFile(jsonData);
-      return file.path;
+      await FileHandler.writeToFile(jsonData);
+      return true;
     } catch (e) {
       print(e.toString());
-      return "Export Error";
+      return false;
     }
   }
 

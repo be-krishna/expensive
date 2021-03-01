@@ -6,9 +6,9 @@ import 'package:permission_handler/permission_handler.dart';
 
 class FileHandler {
   static Future<String> get _localPath async {
-    if (await Permission.storage.request().isGranted) {
-      var path = await ExtStorage.getExternalStoragePublicDirectory(
-          ExtStorage.DIRECTORY_DOWNLOADS);
+    PermissionStatus status = await Permission.storage.request();
+    if (status.isGranted) {
+      var path = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
       return path; // /storage/emulated/0
     } else {
       return null;
@@ -21,6 +21,7 @@ class FileHandler {
   }
 
   static Future<String> readFromFile() async {
+    await Permission.storage.request();
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['json'],
@@ -38,7 +39,8 @@ class FileHandler {
   }
 
   static Future<File> writeToFile(String data) async {
-    if (await Permission.storage.request().isGranted) {
+    PermissionStatus status = await Permission.storage.request();
+    if (status.isGranted) {
       final file = await _localFile;
       file.existsSync();
       return file.writeAsString(data);
