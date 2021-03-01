@@ -204,11 +204,13 @@ class _AddExpenseState extends State<AddExpense> {
                 onTapFunction: () {
                   if (_formKey.currentState.validate()) {
                     Provider.of<ExpenseData>(context, listen: false).addExpense(
-                      amount: amount,
-                      date: selectedDate,
-                      time: selectedTime,
-                      category: category,
-                      note: note,
+                      Expense(
+      amount: amount,
+      category: category,
+      date: selectedDate,
+      note: note,
+      time: selectedTime,
+    )
                     );
 
                     _dateController.clear();

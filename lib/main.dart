@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'models/deleted_expense_data.dart';
 import 'models/expense_data.dart';
 import 'screens/add_expense_screen.dart';
 import 'screens/dashboard_screen.dart';
@@ -21,12 +20,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ExpenseData>(create: (_) => ExpenseData()),
-        ChangeNotifierProvider<DeletedExpenseData>(
-            create: (_) => DeletedExpenseData())
-      ],
+    return ChangeNotifierProvider<ExpenseData>(
+      create: (_) => ExpenseData(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Dashboard(),
@@ -43,8 +38,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.pink,
           scaffoldBackgroundColor: Color(0xff090723),
           snackBarTheme: SnackBarThemeData(
-              backgroundColor: Color(0xff090723),
-              contentTextStyle: TextStyle(color: Colors.pink)),
+              backgroundColor: Color(0xff090723), contentTextStyle: TextStyle(color: Colors.pink)),
         ),
       ),
     );

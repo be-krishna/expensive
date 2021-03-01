@@ -1,8 +1,8 @@
+import 'package:expensive/models/expense_data.dart';
 import 'package:expensive/widgets/widget_no_expense_prompt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/deleted_expense_data.dart';
 import '../models/expense.dart';
 import '../widgets/widget_list_item.dart';
 
@@ -26,20 +26,21 @@ class _DeletedExpenseState extends State<DeletedExpense> {
         ),
         centerTitle: true,
       ),
-      body: Consumer<DeletedExpenseData>(
-        builder: (context, _data, _) => _data.deletedExpense.isEmpty
+      body: Consumer<ExpenseData>(
+        builder: (context, _data, _) => _data.deletedExpenses.isEmpty
             ? NoExpensePrompt()
             : Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.symmetric(horizontal: 10),
-                      itemCount: _expenses == null ? _data.deletedExpense.length : _expenses.length,
+                      itemCount:
+                          _expenses == null ? _data.deletedExpenses.length : _expenses.length,
                       itemBuilder: (context, index) {
-                        var temp = _data.deletedExpense;
+                        var temp = _data.deletedExpenses;
                         var entry = temp[index];
                         return Dismissible(
-                          key: Key(entry.id.toString()),
+                          key: UniqueKey(),
                           child: ListItem(
                             amount: entry.amount,
                             note: entry.note,
@@ -49,10 +50,12 @@ class _DeletedExpenseState extends State<DeletedExpense> {
                           ),
                           onDismissed: (DismissDirection direction) {
                             if (direction == DismissDirection.endToStart) {
-                              _data.removeExpense(entry.id);
+                              //method call to remove data forever
+                              _data.deleteExpense(entry, restore: true);
                             } else {
-                              _data.restoreExpense(entry);
-                              Navigator.of(context).pop();
+                              // method call to restore data
+                              _data.addExpense(entry);
+                              _data.deleteExpense(entry, restore: true);
                             }
                           },
                           background: sliderBackground(

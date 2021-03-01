@@ -74,15 +74,12 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> deleteExpense(
-    int id, {
-    String tableName = Expense.tblExpense,
-  }) async {
+  Future<int> deleteExpense(Expense expense, {String tableName = Expense.tblExpense}) async {
     Database db = await database;
     return await db.delete(
       tableName,
       where: '${Expense.colId}=?',
-      whereArgs: [id],
+      whereArgs: [expense.id],
     );
   }
 
@@ -91,9 +88,7 @@ class DatabaseHelper {
   }) async {
     Database db = await database;
     List<Map> expenses = await db.query(tableName);
-    return expenses.length == 0
-        ? []
-        : expenses.map((e) => Expense.fromMap(e)).toList();
+    return expenses.length == 0 ? [] : expenses.map((e) => Expense.fromMap(e)).toList();
   }
 
   Future<int> cleanTable({String tableName = Expense.tblExpense}) async {
@@ -111,9 +106,7 @@ class DatabaseHelper {
       where: '${Expense.colId}=?',
       whereArgs: [id],
     );
-    var expense = expenses.length > 1
-        ? []
-        : expenses.map((e) => Expense.fromMap(e)).toList();
+    var expense = expenses.length > 1 ? [] : expenses.map((e) => Expense.fromMap(e)).toList();
     return expense.first;
   }
 }

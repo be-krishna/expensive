@@ -71,8 +71,7 @@ class _DashboardState extends State<Dashboard> {
                     child: ReusableCard(
                       color: activeCardColor,
                       onTapFunction: () {
-                        Navigator.of(context)
-                            .pushNamed(RecentExpense.routeName);
+                        Navigator.of(context).pushNamed(RecentExpense.routeName);
                       },
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -84,10 +83,8 @@ class _DashboardState extends State<Dashboard> {
                           SizedBox(height: 15),
                           Text(
                             "History",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey,
-                                fontFamily: 'OpenSans'),
+                            style:
+                                TextStyle(fontSize: 18, color: Colors.grey, fontFamily: 'OpenSans'),
                           )
                         ],
                       ),
@@ -97,8 +94,7 @@ class _DashboardState extends State<Dashboard> {
                     child: ReusableCard(
                       color: activeCardColor,
                       onTapFunction: () {
-                        Navigator.of(context)
-                            .pushNamed(ExpenseHistory.routeName);
+                        Navigator.of(context).pushNamed(ExpenseHistory.routeName);
                       },
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -110,10 +106,8 @@ class _DashboardState extends State<Dashboard> {
                           SizedBox(height: 15),
                           Text(
                             "Statistics",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey,
-                                fontFamily: 'OpenSans'),
+                            style:
+                                TextStyle(fontSize: 18, color: Colors.grey, fontFamily: 'OpenSans'),
                           )
                         ],
                       ),
@@ -141,8 +135,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                            text: NumberFormat('#,##,###.00', 'en_US')
-                                .format(value.total),
+                            text: NumberFormat('#,##,###.00', 'en_US').format(value.total),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: "OpenSans",

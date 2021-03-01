@@ -35,15 +35,12 @@ class _RecentExpenseState extends State<RecentExpense> {
                 Expanded(
                   child: ListView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: _expenses == null
-                        ? _data.expenses.length
-                        : _expenses.length,
+                    itemCount: _expenses == null ? _data.expenses.length : _expenses.length,
                     itemBuilder: (context, index) {
-                      var temp = _data.sortedExpenses(
-                          customList: _expenses ?? _data.expenses);
+                      var temp = _data.sortedExpenses(customList: _expenses ?? _data.expenses);
                       var entry = temp[index];
                       return Dismissible(
-                        key: Key(entry.id.toString()),
+                        key: UniqueKey(),
                         child: ListItem(
                           amount: entry.amount,
                           note: entry.note,
@@ -53,7 +50,7 @@ class _RecentExpenseState extends State<RecentExpense> {
                         ),
                         onDismissed: (DismissDirection direction) {
                           if (direction == DismissDirection.endToStart) {
-                            _data.deleteExpense(entry.id);
+                            _data.deleteExpense(entry);
                           } else {
                             Navigator.of(context).pop();
                             Navigator.of(context).push(
@@ -87,23 +84,19 @@ class _RecentExpenseState extends State<RecentExpense> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text("Confirm"),
-                                content: direction ==
-                                        DismissDirection.endToStart
-                                    ? const Text(
-                                        "Are you sure you wish to delete this item?")
+                                content: direction == DismissDirection.endToStart
+                                    ? const Text("Are you sure you wish to delete this item?")
                                     : const Text("Update item?"),
                                 actions: <Widget>[
                                   FlatButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(true),
+                                    onPressed: () => Navigator.of(context).pop(true),
                                     child: const Text(
                                       "Yes",
                                       style: TextStyle(color: Colors.pink),
                                     ),
                                   ),
                                   FlatButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(false),
+                                    onPressed: () => Navigator.of(context).pop(false),
                                     child: const Text(
                                       "Cancel",
                                       style: TextStyle(
@@ -180,10 +173,7 @@ class _RecentExpenseState extends State<RecentExpense> {
 }
 
 Widget sliderBackground(
-    {BuildContext context,
-    IconData icon,
-    String iconLabel,
-    bool slideRight = true}) {
+    {BuildContext context, IconData icon, String iconLabel, bool slideRight = true}) {
   return Container(
     decoration: BoxDecoration(
       color: Theme.of(context).primaryColor,
@@ -191,8 +181,7 @@ Widget sliderBackground(
     ),
     child: Align(
       child: Row(
-        mainAxisAlignment:
-            slideRight ? MainAxisAlignment.start : MainAxisAlignment.end,
+        mainAxisAlignment: slideRight ? MainAxisAlignment.start : MainAxisAlignment.end,
         children: <Widget>[
           SizedBox(
             width: 20,

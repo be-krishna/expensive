@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:expensive/models/deleted_expense_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,17 +11,21 @@ import 'expense.dart';
 
 class ExpenseData extends ChangeNotifier {
   DatabaseHelper _dbHelper;
-  DeletedExpenseData deletedExpenseData;
   ExpenseData() {
     _dbHelper = DatabaseHelper.instance;
-    deletedExpenseData = DeletedExpenseData();
     _firstRun();
     addDataToList();
     notifyListeners();
   }
   List<Expense> _expenses = [];
 
+  // Deleted expense list
+  List<Expense> _deletedExpenses = [];
+
   List<Expense> get expenses => _expenses;
+
+  // Getter for deleted expenses
+  List<Expense> get deletedExpenses => _deletedExpenses;
 
   double get total => totalExpense();
 
@@ -104,33 +107,28 @@ class ExpenseData extends ChangeNotifier {
 
   void _refreshExpenseList() async {
     _expenses = await _dbHelper.fetchExpenses();
+    _deletedExpenses = await _dbHelper.fetchExpenses(tableName: DatabaseHelper.deletedExpenseTable);
     notifyListeners();
   }
 
-  void addExpense({
-    DateTime date,
-    TimeOfDay time,
-    double amount,
-    ExpenseCategory category,
-    String note,
-  }) {
-    Expense newExpense = Expense(
-      amount: amount,
-      category: category,
-      date: date,
-      note: note,
-      time: time,
-    );
-
-    _dbHelper.insertExpense(newExpense);
+  // tablename for adding to deleted table
+  void addExpense(Expense expense, {bool deleted = false}) {
+    deleted
+        ? _dbHelper.insertExpense(expense, tableName: DatabaseHelper.deletedExpenseTable)
+        : _dbHelper.insertExpense(expense);
     _refreshExpenseList();
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void deleteExpense(int id) async {
-    Expense deletedExpense = await _dbHelper.getExpenseById(id);
-    deletedExpenseData.addExpense(deletedExpense);
-    await _dbHelper.deleteExpense(id);
+  void deleteExpense(Expense expense, {bool restore = false}) async {
+    if (!restore) {
+      // if deleted from deletedTable
+      addExpense(expense, deleted: true);
+      await _dbHelper.deleteExpense(expense);
+    } else {
+      // if restored from deletedTable then delete form
+      await _dbHelper.deleteExpense(expense, tableName: DatabaseHelper.deletedExpenseTable);
+    }
     _refreshExpenseList();
   }
 
