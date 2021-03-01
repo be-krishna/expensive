@@ -27,8 +27,7 @@ class ExpenseData extends ChangeNotifier {
   double get total => totalExpense();
 
   double get totalOnEdu => totalExpenseByCategory(ExpenseCategory.EDUCATION);
-  double get totalOnEnt =>
-      totalExpenseByCategory(ExpenseCategory.ENTERTAINMENT);
+  double get totalOnEnt => totalExpenseByCategory(ExpenseCategory.ENTERTAINMENT);
   double get totalOnFood => totalExpenseByCategory(ExpenseCategory.FOOD);
   double get totalOnOthers => totalExpenseByCategory(ExpenseCategory.OTHERS);
   double get totalOnShop => totalExpenseByCategory(ExpenseCategory.SHOPPING);
@@ -157,8 +156,7 @@ class ExpenseData extends ChangeNotifier {
     return totalAmount;
   }
 
-  double totalExpenseByCategory(ExpenseCategory category,
-      [List<Expense> expense]) {
+  double totalExpenseByCategory(ExpenseCategory category, [List<Expense> expense]) {
     if (_expenses.isEmpty) addDataToList();
     double totalAmount = 0;
     var list = expense ?? _expenses;
@@ -227,7 +225,8 @@ class ExpenseData extends ChangeNotifier {
     List<Expense> weeklyExpense = [];
 
     _expenses.forEach((element) {
-      if (element.date.isAfter(DateTime.now().subtract(Duration(days: 7)))) {
+      var today = DateTime.now();
+      if (element.date.isAfter(today.subtract(Duration(days: today.weekday)))) {
         weeklyExpense.add(element);
       }
     });

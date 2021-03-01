@@ -34,9 +34,7 @@ class _DeletedExpenseState extends State<DeletedExpense> {
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.symmetric(horizontal: 10),
-                      itemCount: _expenses == null
-                          ? _data.deletedExpense.length
-                          : _expenses.length,
+                      itemCount: _expenses == null ? _data.deletedExpense.length : _expenses.length,
                       itemBuilder: (context, index) {
                         var temp = _data.deletedExpense;
                         var entry = temp[index];
@@ -53,14 +51,7 @@ class _DeletedExpenseState extends State<DeletedExpense> {
                             if (direction == DismissDirection.endToStart) {
                               _data.removeExpense(entry.id);
                             } else {
-                              _data.restoreExpense(Expense(
-                                id: entry.id,
-                                amount: entry.amount,
-                                note: entry.note,
-                                date: entry.date,
-                                time: entry.time,
-                                category: entry.category,
-                              ));
+                              _data.restoreExpense(entry);
                               Navigator.of(context).pop();
                             }
                           },
@@ -81,23 +72,19 @@ class _DeletedExpenseState extends State<DeletedExpense> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: const Text("Confirm"),
-                                  content: direction ==
-                                          DismissDirection.endToStart
-                                      ? const Text(
-                                          "Are you sure you wish to delete this item?")
+                                  content: direction == DismissDirection.endToStart
+                                      ? const Text("Are you sure you wish to delete this item?")
                                       : const Text("Update item?"),
                                   actions: <Widget>[
                                     FlatButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(true),
+                                      onPressed: () => Navigator.of(context).pop(true),
                                       child: const Text(
                                         "Yes",
                                         style: TextStyle(color: Colors.pink),
                                       ),
                                     ),
                                     FlatButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(false),
+                                      onPressed: () => Navigator.of(context).pop(false),
                                       child: const Text(
                                         "Cancel",
                                         style: TextStyle(
@@ -106,8 +93,7 @@ class _DeletedExpenseState extends State<DeletedExpense> {
                                       ),
                                     ),
                                   ],
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
+                                  backgroundColor: Theme.of(context).primaryColor,
                                 );
                               },
                             );
@@ -124,10 +110,7 @@ class _DeletedExpenseState extends State<DeletedExpense> {
 }
 
 Widget sliderBackground(
-    {BuildContext context,
-    IconData icon,
-    String iconLabel,
-    bool slideRight = true}) {
+    {BuildContext context, IconData icon, String iconLabel, bool slideRight = true}) {
   return Container(
     decoration: BoxDecoration(
       color: Theme.of(context).primaryColor,
@@ -135,8 +118,7 @@ Widget sliderBackground(
     ),
     child: Align(
       child: Row(
-        mainAxisAlignment:
-            slideRight ? MainAxisAlignment.start : MainAxisAlignment.end,
+        mainAxisAlignment: slideRight ? MainAxisAlignment.start : MainAxisAlignment.end,
         children: <Widget>[
           SizedBox(
             width: 20,
