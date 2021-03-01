@@ -76,8 +76,8 @@ class _DeletedExpenseState extends State<DeletedExpense> {
                                 return AlertDialog(
                                   title: const Text("Confirm"),
                                   content: direction == DismissDirection.endToStart
-                                      ? const Text("Are you sure you wish to delete this item?")
-                                      : const Text("Update item?"),
+                                      ? const Text("Can't be restored, Proceed?")
+                                      : const Text("Restore item?"),
                                   actions: <Widget>[
                                     FlatButton(
                                       onPressed: () => Navigator.of(context).pop(true),
