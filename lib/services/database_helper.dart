@@ -91,9 +91,10 @@ class DatabaseHelper {
     return expenses.length == 0 ? [] : expenses.map((e) => Expense.fromMap(e)).toList();
   }
 
-  Future<int> cleanTable({String tableName = Expense.tblExpense}) async {
+  Future<void> cleanTable({String tableName = Expense.tblExpense}) async {
     Database db = await database;
-    return db.rawDelete("DELETE FROM $tableName");
+    await db.rawDelete("DELETE FROM $tableName");
+    await db.rawDelete("DELETE FROM $deletedExpenseTable");
   }
 
   Future<Expense> getExpenseById(
