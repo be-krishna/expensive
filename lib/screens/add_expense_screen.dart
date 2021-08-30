@@ -104,9 +104,8 @@ class _AddExpenseState extends State<AddExpense> {
             Expanded(
               child: Form(
                 key: _formKey,
-                autovalidateMode: _autoValidate
-                    ? AutovalidateMode.onUserInteraction
-                    : AutovalidateMode.disabled,
+                autovalidateMode:
+                    _autoValidate ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
                 child: ListView(
                   // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   itemExtent: 120,
@@ -128,8 +127,7 @@ class _AddExpenseState extends State<AddExpense> {
                         if (value.isEmpty) {
                           return "Enter amount";
                         }
-                        if (double.parse(value).isNaN ||
-                            double.parse(value).isNegative) {
+                        if (double.parse(value).isNaN || double.parse(value).isNegative) {
                           return "Enter correct amount";
                         }
                         return null;
@@ -160,8 +158,7 @@ class _AddExpenseState extends State<AddExpense> {
                           category = value;
                         });
                       },
-                      formValidator: (value) =>
-                          value == null ? 'Select Category' : null,
+                      formValidator: (value) => value == null ? 'Select Category' : null,
                     ),
                     TextFormField(
                       controller: _dateController,
@@ -203,15 +200,13 @@ class _AddExpenseState extends State<AddExpense> {
               builder: (context) => SubmitButton(
                 onTapFunction: () {
                   if (_formKey.currentState.validate()) {
-                    Provider.of<ExpenseData>(context, listen: false).addExpense(
-                      Expense(
-      amount: amount,
-      category: category,
-      date: selectedDate,
-      note: note,
-      time: selectedTime,
-    )
-                    );
+                    Provider.of<ExpenseData>(context, listen: false).addExpense(Expense(
+                      amount: amount,
+                      category: category,
+                      date: selectedDate,
+                      note: note,
+                      time: selectedTime,
+                    ));
 
                     _dateController.clear();
                     _timeController.clear();
