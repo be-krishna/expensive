@@ -68,24 +68,34 @@ class ListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: Colors.pink),
-        ),
-        color: Color(0xff090723),
-        child: ListTile(
-          leading: getIcon(category),
-          title: Text(
-            note,
-            style: TextStyle(fontSize: 18, fontFamily: 'OpenSans'),
-            overflow: TextOverflow.ellipsis,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.pinkAccent,
+              getIcon(category).color,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          subtitle:
-              date != null ? Text('${DateFormat.yMMMMd().format(date)}') : null,
-          trailing: Text('${formatter.format(amount)}'),
-          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          onTap: onTapCallback,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Card(
+          margin: EdgeInsets.all(1),
+          shape: RoundedRectangleBorder(),
+          color: Color(0xff090723),
+          child: ListTile(
+            leading: getIcon(category),
+            title: Text(
+              note,
+              style: TextStyle(fontSize: 18, fontFamily: 'OpenSans'),
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: date != null ? Text('${DateFormat.yMMMMd().format(date)}') : null,
+            trailing: Text('${formatter.format(amount)}'),
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            onTap: onTapCallback,
+          ),
         ),
       ),
     );
